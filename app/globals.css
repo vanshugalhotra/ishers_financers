@@ -2,32 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+
+@layer components {
+  /* sidebar nav */
+
+  .sidebar-nav-list {
+    @apply whitespace-pre xl:px-2.5 text-[0.9rem] pt-5 pb-2 flex flex-col gap-1 font-medium overflow-x-hidden;
   }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+  .sidebar-nav-link {
+    @apply xl:p-2.5 md:py-2.5 md:px-1 p-2.5 flex rounded-md gap-6 items-center md:cursor-pointer cursor-default duration-300 font-medium text-lg text-center;
+  }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .sidebar-nav-link .sidebar-nav-link-p {
+    @apply px-2 capitalize;
+  }
+
+  .sidebar-nav-link:hover {
+    @apply bg-blue-100 text-blue-600;
+  }
+
+  .sidebar-nav-link-active {
+    @apply bg-blue-100 text-blue-600;
+  }
+
+  /* icons */
+
+  .normal-icon {
+    @apply w-6 h-6 cursor-pointer;
+  }
+
+  .up-icon {
+    @apply cursor-pointer  transition-all duration-200 ease-out hover:-translate-y-[.5px];
   }
 }
