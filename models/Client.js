@@ -34,29 +34,7 @@ const clientSchema = new Schema(
     panNumber: {
       type: String,
       required: true,
-      unique: true,
-    },
-    panPhoto: {
-      type: String,
-      required: true,
-    },
-    chequeOrPassbookPhoto: {
-      type: String,
-      required: true,
-    },
-    loans: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Loan", // Assuming you have a Loan model
-      },
-    ],
-    dob: {
-      type: Date,
-      required: true,
-    },
-    image: {
-      type: String,
-      required: true,
+      default: "avatar.svg",
     },
   },
   {
