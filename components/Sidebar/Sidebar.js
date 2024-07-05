@@ -1,25 +1,26 @@
+// components/Sidebar/Sidebar.js
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import useWindowWidth from "@/hooks/useWindowWidth";
 import { motion } from "framer-motion";
 import Image from "next/image";
-
 import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
 import { IoIosArrowBack, IoIosArrowDown } from "react-icons/io";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { CgUserList } from "react-icons/cg";
 import { MdOutlineAttachMoney } from "react-icons/md";
+import { useSidebar } from "@/context/SidebarContext";
 
 const SidebarItem = ({ name, MenuIcon, url }) => {
+  const { isActiveLink, linkClick } = useSidebar();
+
   return (
     <li>
       <Link
         href={url}
         className={`sidebar-nav-link ${
-          isActiveLink("/") ? "sidebar-nav-link-active" : ""
+          isActiveLink(url) ? "sidebar-nav-link-active" : ""
         }`}
         onClick={linkClick}
         id="dashboard"
@@ -32,17 +33,7 @@ const SidebarItem = ({ name, MenuIcon, url }) => {
 };
 
 const SubMenu = ({ name, MenuIcon, url }) => {
-  const router = useRouter();
-
-  const windowWidth = useWindowWidth();
-  const isActiveLink = (pathname) => {
-    return router.asPath === pathname;
-  };
-
-  const linkClick = () => {
-    if (windowWidth < "768") {
-    }
-  };
+  const { isActiveLink, linkClick } = useSidebar();
 
   return (
     <li>
@@ -60,49 +51,38 @@ const SubMenu = ({ name, MenuIcon, url }) => {
   );
 };
 
-const Sidebar = ({ isOpen, toggleSideBar, sideBarData, windowWidth }) => {
-  // states
-  const [showClientSubMenu, setShowClientSubMenu] = useState(true);
+const Sidebar = () => {
+  const {
+    isSidebarOpen,
+    toggleSideBar,
+    sideBarData,
+    windowWidth,
+    showClientSubMenu,
+    toggleClientSubMenu,
+  } = useSidebar();
 
   const { sideBarOpenWidth, sideBarCloseWidth, sideBarImage } = sideBarData;
 
-  const isActiveLink = (pathname) => {
-    // return router.asPath === pathname;
-  };
-
-  //   Animation
   const Sidebar_animation = {
-    // system view
     open: {
-      width: windowWidth >= "768" ? sideBarOpenWidth : "100vw",
+      width: windowWidth >= 768 ? sideBarOpenWidth : "100vw",
       transition: {
         damping: 40,
       },
     },
     closed: {
-      width: windowWidth >= "768" ? sideBarCloseWidth : "0vw",
+      width: windowWidth >= 768 ? sideBarCloseWidth : "0vw",
       transition: {
         damping: 40,
       },
     },
   };
 
-  const linkClick = () => {
-    if (windowWidth < "768") {
-    }
-  };
-
-  // Toggle function for showClientSubMenu state
-  const toggleClientSubMenu = () => {
-    setShowClientSubMenu(!showClientSubMenu);
-  };
-
-  const SidebarItems = [];
   const clientsSubMenu = [
     {
-      name: "add client",
+      name: "Add Client",
       icon: AiOutlineUserAdd,
-      url: "/",
+      url: "/addclient",
     },
     {
       name: "Show Clients",
@@ -119,13 +99,12 @@ const Sidebar = ({ isOpen, toggleSideBar, sideBarData, windowWidth }) => {
       >
         <motion.div
           variants={Sidebar_animation}
-          animate={isOpen ? "open" : "closed"}
+          animate={isSidebarOpen ? "open" : "closed"}
           className="bg-white text-gray shadow-xl z-[10000] w-full min-h-screen"
         >
           {/* Menus */}
           <div className="flex flex-col h-full">
             {/* user details */}
-
             <div className="user-details inline-flex justify-center flex-col items-center mt-4 border-b-2 border-gray-200 border-opacity-60">
               <div className="user-icon relative w-56 h-40">
                 <Image
@@ -141,26 +120,19 @@ const Sidebar = ({ isOpen, toggleSideBar, sideBarData, windowWidth }) => {
             <div className="list-content py-2">
               <ul className="sidebar-nav-list">
                 {/* dashboard */}
-                <li>
-                  <Link
-                    href={"/"}
-                    className={`sidebar-nav-link ${
-                      isActiveLink("/") ? "sidebar-nav-link-active" : ""
-                    }`}
-                    onClick={linkClick}
-                    id="dashboard"
-                  >
-                    <LuLayoutDashboard className="h-6 w-6 min-w-max" />
-                    <p className="sidebar-nav-link-p">Dashboard</p>
-                  </Link>
-                </li>
+                <SidebarItem
+                  name="Dashboard"
+                  MenuIcon={LuLayoutDashboard}
+                  url="/"
+                />
 
                 {/* Products */}
                 <li>
                   <div
                     className={`sidebar-nav-link`}
                     onClick={(event) => {
-                      linkClick(event);
+                      event.preventDefault();
+                      toggleClientSubMenu();
                     }}
                     id="clients"
                   >
@@ -170,11 +142,6 @@ const Sidebar = ({ isOpen, toggleSideBar, sideBarData, windowWidth }) => {
                       className={` ${
                         showClientSubMenu && "rotate-180"
                       } duration-200 ml-auto`}
-                      onClick={(event) => {
-                        toggleClientSubMenu();
-                        event.preventDefault();
-                        event.stopPropagation();
-                      }}
                     />
                   </div>
                 </li>
@@ -189,47 +156,29 @@ const Sidebar = ({ isOpen, toggleSideBar, sideBarData, windowWidth }) => {
                         }
                   }
                   className={`flex h-0 flex-col pl-14 text-[0.8rem] font-normal overflow-hidden ${
-                    isOpen ? "" : "!hidden"
+                    isSidebarOpen ? "" : "!hidden"
                   }`}
                 >
-                  {clientsSubMenu.map(({ name, icon, url }) => {
-                    return (
-                      <SubMenu
-                        key={name}
-                        name={name}
-                        MenuIcon={icon}
-                        url={url}
-                      />
-                    );
-                  })}
+                  {clientsSubMenu.map(({ name, icon, url }) => (
+                    <SubMenu key={name} name={name} MenuIcon={icon} url={url} />
+                  ))}
                 </motion.ul>
 
                 {/* records */}
-                <li>
-                  <Link
-                    href={"/"}
-                    className={`sidebar-nav-link ${
-                      isActiveLink("/") ? "sidebar-nav-link-active" : ""
-                    }`}
-                    onClick={linkClick}
-                    id="records"
-                  >
-                    <MdOutlineAttachMoney className="h-6 w-6 min-w-max" />
-                    <p className="sidebar-nav-link-p">Records</p>
-                  </Link>
-                </li>
+                <SidebarItem
+                  name="Records"
+                  MenuIcon={MdOutlineAttachMoney}
+                  url="/"
+                />
               </ul>
             </div>
           </div>
 
           {/* back button */}
-
           <motion.div
-            onClick={() => {
-              toggleSideBar();
-            }}
+            onClick={toggleSideBar}
             animate={
-              isOpen
+              isSidebarOpen
                 ? {
                     x: 0,
                     y: 0,
