@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import Layout from "@/components/Layout/Layout";
 import { SidebarProvider } from "@/context/SidebarContext";
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -14,6 +15,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        <NextTopLoader
+          color="#FF9F43"
+          initialPosition={0.08}
+          crawlSpeed={200}
+          height={2}
+          crawl={true}
+          showSpinner={false}
+          easing="ease"
+          speed={100}
+          shadow="0 0 10px #FF9F43,0 0 5px #FF9F43"
+        />
         <SidebarProvider>
           <Layout>{children}</Layout>
         </SidebarProvider>
