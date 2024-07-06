@@ -7,6 +7,7 @@ import DobPicker from "@/components/Form/DobPicker";
 import Image from "next/image";
 import Upload from "@/components/Form/Upload";
 import Link from "next/link";
+import { raiseToast } from "@/utils/utilityFuncs";
 
 const AddClient = () => {
   const { marginForSidebar } = useSidebar();
@@ -23,6 +24,8 @@ const AddClient = () => {
   const handleDateChange = (date) => {
     setDob(date);
   };
+
+  const submit = () => {};
 
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
@@ -137,7 +140,10 @@ const AddClient = () => {
           </div>
         </div>
         <div className="control-buttons mx-4 my-4">
-          <div className="primary-btn bg-orange-400 hover:bg-orange-500">
+          <div
+            className="primary-btn bg-orange-400 hover:bg-orange-500"
+            onClick={submit}
+          >
             Submit
           </div>
           <Link

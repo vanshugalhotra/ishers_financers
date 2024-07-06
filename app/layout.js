@@ -2,6 +2,9 @@ import { Inter } from "next/font/google";
 import Layout from "@/components/Layout/Layout";
 import { SidebarProvider } from "@/context/SidebarContext";
 import NextTopLoader from "nextjs-toploader";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -27,7 +30,21 @@ export default function RootLayout({ children }) {
           shadow="0 0 10px #FF9F43,0 0 5px #FF9F43"
         />
         <SidebarProvider>
-          <Layout>{children}</Layout>
+          <Layout>
+            <ToastContainer
+              position="top-center"
+              autoClose={1000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+            {children}
+          </Layout>
         </SidebarProvider>
       </body>
     </html>
