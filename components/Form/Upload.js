@@ -1,9 +1,13 @@
 import React from "react";
 import Image from "next/image";
 
-const Upload = ({name}) => {
+const Upload = ({ name, setState }) => {
+  function handleFileUpload(file) {
+    setState(file);
+  }
+
   return (
-    <div >
+    <div>
       <label htmlFor="images" className="input-label">
         {name}
       </label>
@@ -11,8 +15,14 @@ const Upload = ({name}) => {
         <input
           type="file"
           className="!w-full h-[100px] opacity-0 relative"
-          id="image"
-          name="image"
+          id={name}
+          name={name}
+          onChange={(event) => {
+            if (event.target.files) {
+              const file = event.target.files[0];
+              handleFileUpload(file);
+            }
+          }}
         />
         <label
           htmlFor="brandlogo"

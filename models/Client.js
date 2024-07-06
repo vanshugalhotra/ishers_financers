@@ -13,11 +13,6 @@ const clientSchema = new Schema(
       required: true,
       unique: true,
     },
-    loanNumber: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     signaturePhoto: {
       type: String,
       required: true,
@@ -52,11 +47,9 @@ const clientSchema = new Schema(
     ],
     dob: {
       type: Date,
-      required: true,
     },
     image: {
       type: String,
-      required: true,
       default: "avatar.svg",
     },
   },
