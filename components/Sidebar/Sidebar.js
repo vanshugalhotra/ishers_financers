@@ -168,7 +168,7 @@ const Sidebar = () => {
                 <SidebarItem
                   name="Records"
                   MenuIcon={MdOutlineAttachMoney}
-                  url="/"
+                  url="/records"
                 />
               </ul>
             </div>
