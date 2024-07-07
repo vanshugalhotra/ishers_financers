@@ -13,6 +13,10 @@ const loanSchema = new Schema(
       ref: "Client", // Reference to the Client model
       required: true,
     },
+    type: {
+      type: String,
+      default: "Personal",
+    },
     amount: {
       type: Number,
       required: true,

@@ -8,6 +8,7 @@ import Image from "next/image";
 import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
 import { IoIosArrowBack, IoIosArrowDown } from "react-icons/io";
 import { LuLayoutDashboard } from "react-icons/lu";
+import { TbMoneybag } from "react-icons/tb";
 import { CgUserList } from "react-icons/cg";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { useSidebar } from "@/context/SidebarContext";
@@ -126,7 +127,7 @@ const Sidebar = () => {
                   url="/"
                 />
 
-                {/* Products */}
+                {/* client */}
                 <li>
                   <div
                     className={`sidebar-nav-link`}
@@ -169,6 +170,12 @@ const Sidebar = () => {
                   name="Records"
                   MenuIcon={MdOutlineAttachMoney}
                   url="/records"
+                />
+                {/* Add Loan */}
+                <SidebarItem
+                  name="Add Loan"
+                  MenuIcon={TbMoneybag}
+                  url="/loan/addloan"
                 />
               </ul>
             </div>
