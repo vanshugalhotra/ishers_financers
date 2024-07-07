@@ -169,7 +169,7 @@ const Sidebar = () => {
                 <SidebarItem
                   name="Records"
                   MenuIcon={MdOutlineAttachMoney}
-                  url="/records"
+                  url="/loans"
                 />
                 {/* Add Loan */}
                 <SidebarItem

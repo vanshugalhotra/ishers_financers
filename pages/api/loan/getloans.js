@@ -25,8 +25,10 @@ const handler = async (req, res) => {
           }
         : {};
 
-      const loans = await Loan.find(loanSearchQuery)
-        .populate("client", "name")
+      const loans = await Loan.find(loanSearchQuery).populate({
+        path: "client",
+        select: "name phone image", // Specify the fields you want to populate
+      });
 
       res.status(200).json(loans);
     } catch (error) {
