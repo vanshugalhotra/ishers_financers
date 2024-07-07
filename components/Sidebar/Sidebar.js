@@ -88,7 +88,7 @@ const Sidebar = () => {
     {
       name: "Show Clients",
       icon: CgUserList,
-      url: "/",
+      url: "/clients",
     },
   ];
 
@@ -175,7 +175,7 @@ const Sidebar = () => {
                 <SidebarItem
                   name="Add Loan"
                   MenuIcon={TbMoneybag}
-                  url="/loan/addloan"
+                  url="/addloan"
                 />
               </ul>
             </div>
