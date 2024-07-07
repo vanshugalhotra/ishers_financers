@@ -99,7 +99,7 @@ const Clients = () => {
                     Phone
                   </th>
                   <th scope="col" className="table-heading">
-                    Amount
+                    Amount (₹)
                   </th>
                   <th scope="col" className="table-heading">
                     Action
@@ -133,13 +133,13 @@ const Clients = () => {
                         </th>
                         <td className="table-data">{name}</td>
                         <td className="table-data">{phone}</td>
-                        <td className="table-data">{1000}</td>
+                        <td className="table-data">{`₹ 1000`}</td>
                         <td className="table-data space-y-2">
                           <div className="action-icon" onClick={() => {}}>
                             <FaRegEye className="normal-icon" />
                           </div>
                           <div className="action-icon" onClick={() => {}}>
-                            <AiOutlineEdit className="normal-icon" />
+                            <AiOutlineEdit className="normal-icon mx-1" />
                           </div>
                           <div className="inline-block text-red-500 up-icon hover:text-red-700">
                             <FaRegTrashAlt
