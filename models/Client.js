@@ -58,4 +58,7 @@ const clientSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Client", clientSchema);
+// Check if the model already exists before creating a new one
+const Client = mongoose.models.Client || mongoose.model("Client", clientSchema);
+
+module.exports = Client;

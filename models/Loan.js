@@ -39,4 +39,7 @@ const loanSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Loan", loanSchema);
+// Check if the model already exists before creating a new one
+const Loan = mongoose.models.Loan || mongoose.model("Loan", loanSchema);
+
+module.exports = Loan;
