@@ -15,7 +15,6 @@ const SuggestionInputWithID = ({
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
 
-
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     setInputValue(inputValue);

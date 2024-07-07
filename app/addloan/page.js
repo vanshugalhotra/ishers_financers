@@ -9,6 +9,9 @@ import DobPicker from "@/components/Form/DobPicker";
 import { Dropdown } from "@/components/Form/Dropdown";
 import { fetchData } from "@/utils/dbFuncs";
 import SuggestionInputWithID from "@/components/Form/SuggestionInput";
+import { raiseToast } from "@/utils/utilityFuncs";
+import { postData } from "@/utils/dbFuncs";
+import { useRouter } from "next/navigation";
 
 import { IoAddOutline } from "react-icons/io5";
 
@@ -27,6 +30,8 @@ const AddLoan = () => {
   const [fetchedClients, setFetchedClients] = useState([]);
 
   const loanTypes = ["Personal", "Education", "Home"];
+
+  const router = useRouter();
 
   const handleDateChange = (event) => {
     setStartDate(event.target.value);
@@ -50,6 +55,57 @@ const AddLoan = () => {
 
     fetchInitialClients(); // Invoke the async function to fetch data
   }, []); // Empty dependency array ensures this runs once on mount
+
+  const submit = async () => {
+    try {
+      if (!loanNo) {
+        raiseToast("error", "Loan Number is required!!");
+        return;
+      }
+      if (!clientID) {
+        raiseToast("error", "Client Name is required!!");
+        return;
+      }
+      if (!duration) {
+        raiseToast("error", "Duration is required!!");
+        return;
+      }
+      if (!amount) {
+        raiseToast("error", "Amount is required!!");
+        return;
+      }
+      if (!interest) {
+        raiseToast("error", "Interest is required!!");
+        return;
+      }
+
+      const data = {
+        loanNo: loanNo,
+        client: clientID,
+        type: type,
+        amount: amount,
+        interest: interest,
+        startDate: startDate,
+        duration: duration,
+      };
+
+      let METHOD = "POST";
+      let api = "/api/loan/addloan";
+
+      const response = await postData(METHOD, data, api);
+      if (response.success) {
+        let message = "Loan Added Successfully!!";
+        raiseToast("success", message);
+        setTimeout(() => {
+          router.push("/");
+        }, 1500);
+      } else {
+        raiseToast("info", "Loan Already Exists!!");
+      }
+    } catch (error) {
+      raiseToast("error", error.message);
+    }
+  };
 
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
@@ -155,7 +211,10 @@ const AddLoan = () => {
           </div>
         </div>
         <div className="control-buttons mx-4 my-4">
-          <div className="primary-btn bg-orange-400 hover:bg-orange-500">
+          <div
+            className="primary-btn bg-orange-400 hover:bg-orange-500"
+            onClick={submit}
+          >
             Submit
           </div>
           <Link
