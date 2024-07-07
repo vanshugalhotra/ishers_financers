@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const Upload = ({ name, setState }) => {
+const Upload = ({ name, setState, imageVar }) => {
   function handleFileUpload(file) {
     setState(file);
   }
@@ -15,6 +15,7 @@ const Upload = ({ name, setState }) => {
         <input
           type="file"
           className="!w-full h-[100px] opacity-0 relative"
+          accept="image/*"
           id={name}
           name={name}
           onChange={(event) => {
@@ -43,6 +44,9 @@ const Upload = ({ name, setState }) => {
             </h4>
           </div>
         </label>
+        <div className="text-sm text-gray-600">
+          {imageVar.name ? imageVar.name : ""}
+        </div>
       </div>
     </div>
   );

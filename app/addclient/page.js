@@ -228,26 +228,43 @@ const AddClient = () => {
           </div>
           {/* Aadhar Image */}
           <div className="input-item lg:col-span-1 md:col-span-1">
-            <Upload name={"Aadhar Image"} setState={setAadharImage} />
+            <Upload
+              name={"Aadhar Image"}
+              setState={setAadharImage}
+              imageVar={aadharImage}
+            />
           </div>
           {/* Pan Image */}
           <div className="input-item lg:col-span-1 md:col-span-1">
-            <Upload name={"Pan Card Image"} setState={setPanImage} />
+            <Upload
+              name={"Pan Card Image"}
+              setState={setPanImage}
+              imageVar={panImage}
+            />
           </div>
           {/* Cheque */}
           <div className="input-item lg:col-span-2 md:col-span-1">
             <Upload
               name={"Cheque or Passbook Image"}
               setState={setChequeImage}
+              imageVar={chequeImage}
             />
           </div>
           {/* Image */}
           <div className="input-item lg:col-span-2 md:col-span-1">
-            <Upload name={"Client Image"} setState={setClientImage} />
+            <Upload
+              name={"Client Image"}
+              setState={setClientImage}
+              imageVar={clientImage}
+            />
           </div>
           {/* Signature */}
           <div className="input-item lg:col-span-1 md:col-span-1">
-            <Upload name={"Signature"} setState={setSignature} />
+            <Upload
+              name={"Signature"}
+              setState={setSignature}
+              imageVar={Signature}
+            />
           </div>
         </div>
         <div className="control-buttons mx-4 my-4">
