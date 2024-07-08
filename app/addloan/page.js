@@ -11,23 +11,40 @@ import { fetchData } from "@/utils/dbFuncs";
 import SuggestionInputWithID from "@/components/Form/SuggestionInput";
 import { raiseToast } from "@/utils/utilityFuncs";
 import { postData } from "@/utils/dbFuncs";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { IoAddOutline } from "react-icons/io5";
 
 const AddLoan = () => {
   const { marginForSidebar } = useSidebar();
 
-  const [loanNo, setLoanNo] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
-  const [duration, setDuration] = useState("");
-  const [amount, setAmount] = useState("");
-  const [interest, setInterest] = useState("");
-  const [type, setType] = useState("Personal");
+  const searchParams = useSearchParams();
+
+  const [loanNo, setLoanNo] = useState(
+    searchParams.get("encoded_loanNo") ?? ""
+  );
+  const [startDate, setStartDate] = useState(
+    searchParams.get("encoded_startDate") ?? new Date()
+  );
+  const [duration, setDuration] = useState(
+    searchParams.get("encoded_duration") ?? ""
+  );
+  const [amount, setAmount] = useState(
+    searchParams.get("encoded_amount") ?? ""
+  );
+  const [interest, setInterest] = useState(
+    searchParams.get("encoded_interest") ?? ""
+  );
+  const [type, setType] = useState(
+    searchParams.get("encoded_type") ?? "Personal"
+  );
   const [showType, setShowType] = useState(false);
-  const [client, setClient] = useState("");
-  const [clientID, setClientID] = useState("");
+  const [client, setClient] = useState(
+    searchParams.get("encoded_clientName") ?? ""
+  );
+  const [clientID, setClientID] = useState(searchParams.get("encoded_clientID") ?? "");
   const [fetchedClients, setFetchedClients] = useState([]);
+  const [_id, set_id] = useState(searchParams.get("encoded__id") ?? null);
 
   const loanTypes = ["Personal", "Education", "Home"];
 
@@ -92,9 +109,18 @@ const AddLoan = () => {
       let METHOD = "POST";
       let api = "/api/loan/addloan";
 
+      if (_id) {
+        // if it is an update request
+        METHOD = "PATCH";
+        api = "/api/loan/updateloan";
+        data._id = _id;
+      }
+
       const response = await postData(METHOD, data, api);
       if (response.success) {
-        let message = "Loan Added Successfully!!";
+        let message = _id
+          ? "Loan Updated Successfully!!"
+          : "Loan Added Successfully!!";
         raiseToast("success", message);
         setTimeout(() => {
           router.push("/");

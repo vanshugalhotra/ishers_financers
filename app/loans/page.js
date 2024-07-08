@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useSidebar } from "@/context/SidebarContext";
+import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 import { fetchData } from "@/utils/dbFuncs";
@@ -17,6 +18,8 @@ const Loans = () => {
   const { marginForSidebar } = useSidebar();
   const [searchQuery, setSearchQuery] = useState("");
   const [loans, setLoans] = useState([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchInitialLoans = async () => {
@@ -46,6 +49,41 @@ const Loans = () => {
 
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
+  };
+
+  const handleUpdate = async (
+    _id,
+    loanNo,
+    amount,
+    duration,
+    interest,
+    type,
+    clientName,
+    clientID,
+    startDate
+  ) => {
+    const data = {
+      _id,
+      loanNo,
+      amount,
+      duration,
+      interest,
+      type,
+      clientName,
+      clientID,
+      startDate,
+    };
+    const queryParams = Object.keys(data)
+      .map((key) => {
+        const encodedKey = `encoded_${encodeURIComponent(key)}`;
+        const encodedValue = encodeURIComponent(data[key]);
+        return `${encodedKey}=${encodedValue}`;
+      })
+      .join("&");
+
+    const url = `/addloan?${queryParams}`;
+
+    router.push(url);
   };
 
   return (
@@ -104,49 +142,78 @@ const Loans = () => {
               </thead>
               <tbody>
                 {loans.length &&
-                  loans.map(({ _id, loanNo, amount, client }, index) => {
-                    return (
-                      <tr
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                        key={_id}
-                      >
-                        <td className="table-data text-gray-900 font-semibold">
-                          {index + 1}.)
-                        </td>
-                        <th
-                          scope="row"
-                          className="flex items-center table-data text-gray-900 whitespace-nowrap dark:text-white"
+                  loans.map(
+                    (
+                      {
+                        _id,
+                        loanNo,
+                        amount,
+                        client,
+                        interest,
+                        duration,
+                        type,
+                        startDate,
+                      },
+                      index
+                    ) => {
+                      return (
+                        <tr
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          key={_id}
                         >
-                          <Image
-                            alt="Upload"
-                            className="w-16 h-16"
-                            layout="fixed"
-                            width={58}
-                            height={58}
-                            objectFit="cover"
-                            src={`/assets/images/CLIENT/${client.phone}/${client.image}`}
-                          />
-                        </th>
-                        <td className="table-data">{client.name}</td>
-                        <td className="table-data">{loanNo}</td>
-                        <td className="table-data">{`₹ ${amount}`}</td>
-                        <td className="table-data space-y-2">
-                          <div className="action-icon" onClick={() => {}}>
-                            <FaRegEye className="normal-icon" />
-                          </div>
-                          <div className="action-icon" onClick={() => {}}>
-                            <AiOutlineEdit className="normal-icon mx-1" />
-                          </div>
-                          <div className="inline-block text-red-500 up-icon hover:text-red-700">
-                            <FaRegTrashAlt
-                              className="normal-icon"
-                              onClick={() => {}}
+                          <td className="table-data text-gray-900 font-semibold">
+                            {index + 1}.)
+                          </td>
+                          <th
+                            scope="row"
+                            className="flex items-center table-data text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            <Image
+                              alt="Upload"
+                              className="w-16 h-16"
+                              layout="fixed"
+                              width={58}
+                              height={58}
+                              objectFit="cover"
+                              src={`/assets/images/CLIENT/${client.phone}/${client.image}`}
                             />
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                          </th>
+                          <td className="table-data">{client.name}</td>
+                          <td className="table-data">{loanNo}</td>
+                          <td className="table-data">{`₹ ${amount}`}</td>
+                          <td className="table-data space-y-2">
+                            <div className="action-icon" onClick={() => {}}>
+                              <FaRegEye className="normal-icon" />
+                            </div>
+                            <div
+                              className="action-icon"
+                              onClick={() => {
+                                handleUpdate(
+                                  _id,
+                                  loanNo,
+                                  amount,
+                                  duration,
+                                  interest,
+                                  type,
+                                  client.name,
+                                  client._id,
+                                  startDate
+                                );
+                              }}
+                            >
+                              <AiOutlineEdit className="normal-icon mx-1" />
+                            </div>
+                            <div className="inline-block text-red-500 up-icon hover:text-red-700">
+                              <FaRegTrashAlt
+                                className="normal-icon"
+                                onClick={() => {}}
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    }
+                  )}
               </tbody>
             </table>
           </div>
