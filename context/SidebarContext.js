@@ -10,7 +10,7 @@ const SidebarContext = createContext();
 export const useSidebar = () => useContext(SidebarContext);
 
 export const SidebarProvider = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showClientSubMenu, setShowClientSubMenu] = useState(true);
   const sideBarData = {
     sideBarOpenWidth: "20vw",
@@ -26,10 +26,6 @@ export const SidebarProvider = ({ children }) => {
 
   const toggleClientSubMenu = () => {
     setShowClientSubMenu(!showClientSubMenu);
-  };
-
-  const isActiveLink = (pathname) => {
-    return router.asPath === pathname;
   };
 
   const linkClick = () => {
@@ -52,7 +48,6 @@ export const SidebarProvider = ({ children }) => {
         windowWidth,
         toggleSideBar,
         toggleClientSubMenu,
-        isActiveLink,
         linkClick,
         marginForSidebar: effectiveMarginForSidebar,
       }}

@@ -5,6 +5,8 @@ import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+
 import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
 import { IoIosArrowBack, IoIosArrowDown } from "react-icons/io";
 import { LuLayoutDashboard } from "react-icons/lu";
@@ -14,7 +16,12 @@ import { MdOutlineAttachMoney } from "react-icons/md";
 import { useSidebar } from "@/context/SidebarContext";
 
 const SidebarItem = ({ name, MenuIcon, url }) => {
-  const { isActiveLink, linkClick } = useSidebar();
+  const { linkClick } = useSidebar();
+
+  const pathname = usePathname();
+  const isActiveLink = (url) => {
+    return url === pathname;
+  };
 
   return (
     <li>
@@ -34,7 +41,11 @@ const SidebarItem = ({ name, MenuIcon, url }) => {
 };
 
 const SubMenu = ({ name, MenuIcon, url }) => {
-  const { isActiveLink, linkClick } = useSidebar();
+  const { linkClick } = useSidebar();
+  const pathname = usePathname();
+  const isActiveLink = (url) => {
+    return url === pathname;
+  };
 
   return (
     <li>
@@ -61,6 +72,11 @@ const Sidebar = () => {
     showClientSubMenu,
     toggleClientSubMenu,
   } = useSidebar();
+
+  const pathname = usePathname();
+  const isActiveLink = (url) => {
+    return url === pathname;
+  };
 
   const { sideBarOpenWidth, sideBarCloseWidth, sideBarImage } = sideBarData;
 
