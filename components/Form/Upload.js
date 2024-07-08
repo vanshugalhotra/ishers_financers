@@ -45,7 +45,7 @@ const Upload = ({ name, setState, imageVar }) => {
           </div>
         </label>
         <div className="text-sm text-gray-600">
-          {imageVar.name ? imageVar.name : ""}
+          {imageVar.name ? imageVar.name : imageVar}
         </div>
       </div>
     </div>

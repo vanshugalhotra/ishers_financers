@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSidebar } from "@/context/SidebarContext";
 import InputContainer from "@/components/Form/InputContainer";
 import DobPicker from "@/components/Form/DobPicker";
@@ -8,25 +8,46 @@ import Upload from "@/components/Form/Upload";
 import Link from "next/link";
 import { raiseToast, uploadFileToServer } from "@/utils/utilityFuncs";
 import { postData } from "@/utils/dbFuncs";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const AddClient = () => {
   const { marginForSidebar } = useSidebar();
 
-  const [clientName, setClientName] = useState("");
-  const [clientPhone, setClientPhone] = useState("");
-  const [aadharNo, setAadharNo] = useState("");
-  const [panNumber, setPanNumber] = useState("");
-  const [dob, setDob] = useState("");
-  const [aadharImage, setAadharImage] = useState("");
-  const [panImage, setPanImage] = useState("");
-  const [Signature, setSignature] = useState("");
-  const [clientImage, setClientImage] = useState("");
-  const [chequeImage, setChequeImage] = useState("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [clientName, setClientName] = useState(
+    searchParams.get("encoded_name") ?? ""
+  );
+  const [clientPhone, setClientPhone] = useState(
+    searchParams.get("encoded_phone") ?? ""
+  );
+  const [aadharNo, setAadharNo] = useState(
+    searchParams.get("encoded_aadharNo") ?? ""
+  );
+  const [panNumber, setPanNumber] = useState(
+    searchParams.get("encoded_panNumber") ?? ""
+  );
+  const [dob, setDob] = useState(searchParams.get("encoded_dob") ?? "");
+  const [aadharImage, setAadharImage] = useState(
+    searchParams.get("encoded_aadharImage") ?? ""
+  );
+  const [panImage, setPanImage] = useState(
+    searchParams.get("encoded_panImage") ?? ""
+  );
+  const [Signature, setSignature] = useState(
+    searchParams.get("encoded_Signature") ?? ""
+  );
+  const [clientImage, setClientImage] = useState(
+    searchParams.get("encoded_clientImage") ?? ""
+  );
+  const [chequeImage, setChequeImage] = useState(
+    searchParams.get("encoded_chequeImage") ?? ""
+  );
+
+  const [_id, set_id] = useState(searchParams.get("encoded__id") ?? null);
 
   const FILE_TYPE = "CLIENT";
-
-  const router = useRouter();
 
   const handleDateChange = (date) => {
     setDob(date);
@@ -83,65 +104,84 @@ const AddClient = () => {
       let METHOD = "POST";
       let api = "/api/client/addclient";
 
+      if (_id) {
+        // if it is an update request
+        METHOD = "PATCH";
+        api = "/api/client/updateclient";
+        data._id = _id;
+      }
+
       // Upload Aadhar Image
-      const aadharUploadResponse = await uploadFileToServer(
-        aadharImage,
-        FILE_TYPE,
-        clientPhone
-      );
-      if (!aadharUploadResponse.success) {
-        raiseToast("error", aadharUploadResponse.message);
-        return; // Stop further processing on error
+      if (aadharImage.name) {
+        const aadharUploadResponse = await uploadFileToServer(
+          aadharImage,
+          FILE_TYPE,
+          clientPhone
+        );
+        if (!aadharUploadResponse.success) {
+          raiseToast("error", aadharUploadResponse.message);
+          return; // Stop further processing on error
+        }
       }
 
       // Upload PAN Image
-      const panUploadResponse = await uploadFileToServer(
-        panImage,
-        FILE_TYPE,
-        clientPhone
-      );
-      if (!panUploadResponse.success) {
-        raiseToast("error", panUploadResponse.message);
-        return; // Stop further processing on error
+      if (panImage.name) {
+        const panUploadResponse = await uploadFileToServer(
+          panImage,
+          FILE_TYPE,
+          clientPhone
+        );
+        if (!panUploadResponse.success) {
+          raiseToast("error", panUploadResponse.message);
+          return; // Stop further processing on error
+        }
       }
 
       // Upload Signature Image
-      const signatureUploadResponse = await uploadFileToServer(
-        Signature,
-        FILE_TYPE,
-        clientPhone
-      );
-      if (!signatureUploadResponse.success) {
-        raiseToast("error", signatureUploadResponse.message);
-        return; // Stop further processing on error
+      if (Signature.name) {
+        const signatureUploadResponse = await uploadFileToServer(
+          Signature,
+          FILE_TYPE,
+          clientPhone
+        );
+        if (!signatureUploadResponse.success) {
+          raiseToast("error", signatureUploadResponse.message);
+          return; // Stop further processing on error
+        }
       }
 
       // Upload Client Image
-      const clientImageUploadResponse = await uploadFileToServer(
-        clientImage,
-        FILE_TYPE,
-        clientPhone
-      );
-      if (!clientImageUploadResponse.success) {
-        raiseToast("error", clientImageUploadResponse.message);
-        return; // Stop further processing on error
+      if (clientImage.name) {
+        const clientImageUploadResponse = await uploadFileToServer(
+          clientImage,
+          FILE_TYPE,
+          clientPhone
+        );
+        if (!clientImageUploadResponse.success) {
+          raiseToast("error", clientImageUploadResponse.message);
+          return; // Stop further processing on error
+        }
       }
 
       // Upload Cheque Image
-      const chequeUploadResponse = await uploadFileToServer(
-        chequeImage,
-        FILE_TYPE,
-        clientPhone
-      );
-      if (!chequeUploadResponse.success) {
-        raiseToast("error", chequeUploadResponse.message);
-        return; // Stop further processing on error
+      if (chequeImage.name) {
+        const chequeUploadResponse = await uploadFileToServer(
+          chequeImage,
+          FILE_TYPE,
+          clientPhone
+        );
+        if (!chequeUploadResponse.success) {
+          raiseToast("error", chequeUploadResponse.message);
+          return; // Stop further processing on error
+        }
       }
 
       // All uploads successful, proceed to save data in database
       const response = await postData(METHOD, data, api);
       if (response.success) {
-        let message = "Client Added Successfully!!";
+        let message = _id
+          ? "Client Updated Successfully!!"
+          : "Client Added Successfully!!";
         raiseToast("success", message);
         setTimeout(() => {
           router.push("/");
@@ -213,7 +253,6 @@ const AddClient = () => {
               fullWidth={true}
             />
           </div>
-
           {/*Date of Birth*/}
           <div className="lg:col-span-1">
             <div className="input-item">

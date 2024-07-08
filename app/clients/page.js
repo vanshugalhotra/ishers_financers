@@ -8,6 +8,8 @@ import { fetchData } from "@/utils/dbFuncs";
 import { debounce } from "lodash";
 import Image from "next/image";
 
+import { useRouter } from "next/navigation";
+
 import { IoAddOutline } from "react-icons/io5";
 import { FaRegEye, FaRegTrashAlt } from "react-icons/fa";
 import { AiOutlineEdit } from "react-icons/ai";
@@ -17,6 +19,8 @@ const Clients = () => {
   const { marginForSidebar } = useSidebar();
   const [searchQuery, setSearchQuery] = useState("");
   const [clients, setClients] = useState([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchInitialClients = async () => {
@@ -46,6 +50,45 @@ const Clients = () => {
 
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
+  };
+
+  const handleUpdate = async (
+    _id,
+    name,
+    phone,
+    image,
+    aadharNumber,
+    panNumber,
+    dob,
+    signaturePhoto,
+    chequeOrPassbookPhoto,
+    aadharPhoto,
+    panPhoto
+  ) => {
+    const data = {
+      _id,
+      name,
+      phone,
+      aadharNo: aadharNumber,
+      panNumber,
+      dob,
+      panImage: panPhoto,
+      clientImage: image,
+      chequeImage: chequeOrPassbookPhoto,
+      aadharImage: aadharPhoto,
+      Signature: signaturePhoto,
+    };
+    const queryParams = Object.keys(data)
+      .map((key) => {
+        const encodedKey = `encoded_${encodeURIComponent(key)}`;
+        const encodedValue = encodeURIComponent(data[key]);
+        return `${encodedKey}=${encodedValue}`;
+      })
+      .join("&");
+
+    const url = `/addclient?${queryParams}`;
+
+    router.push(url);
   };
 
   return (
@@ -108,49 +151,83 @@ const Clients = () => {
               </thead>
               <tbody>
                 {clients.length &&
-                  clients.map(({ _id, name, phone, image }, index) => {
-                    return (
-                      <tr
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                        key={_id}
-                      >
-                        <td className="table-data text-gray-900 font-semibold">
-                          {index + 1}.)
-                        </td>
-                        <th
-                          scope="row"
-                          className="flex items-center table-data text-gray-900 whitespace-nowrap dark:text-white"
+                  clients.map(
+                    (
+                      {
+                        _id,
+                        name,
+                        phone,
+                        image,
+                        aadharNumber,
+                        panNumber,
+                        dob,
+                        signaturePhoto,
+                        chequeOrPassbookPhoto,
+                        aadharPhoto,
+                        panPhoto,
+                      },
+                      index
+                    ) => {
+                      return (
+                        <tr
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          key={_id}
                         >
-                          <Image
-                            alt="Upload"
-                            className="w-16 h-16"
-                            layout="fixed"
-                            width={58}
-                            height={58}
-                            objectFit="cover"
-                            src={`/assets/images/CLIENT/${phone}/${image}`}
-                          />
-                        </th>
-                        <td className="table-data">{name}</td>
-                        <td className="table-data">{phone}</td>
-                        <td className="table-data">{`₹ 1000`}</td>
-                        <td className="table-data space-y-2">
-                          <div className="action-icon" onClick={() => {}}>
-                            <FaRegEye className="normal-icon" />
-                          </div>
-                          <div className="action-icon" onClick={() => {}}>
-                            <AiOutlineEdit className="normal-icon mx-1" />
-                          </div>
-                          <div className="inline-block text-red-500 up-icon hover:text-red-700">
-                            <FaRegTrashAlt
-                              className="normal-icon"
-                              onClick={() => {}}
+                          <td className="table-data text-gray-900 font-semibold">
+                            {index + 1}.)
+                          </td>
+                          <th
+                            scope="row"
+                            className="flex items-center table-data text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            <Image
+                              alt="Upload"
+                              className="w-16 h-16"
+                              layout="fixed"
+                              width={58}
+                              height={58}
+                              objectFit="cover"
+                              src={`/assets/images/CLIENT/${phone}/${image}`}
                             />
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                          </th>
+                          <td className="table-data">{name}</td>
+                          <td className="table-data">{phone}</td>
+                          <td className="table-data">{`₹ 1000`}</td>
+                          <td className="table-data space-y-2">
+                            <div className="action-icon" onClick={() => {}}>
+                              <FaRegEye className="normal-icon" />
+                            </div>
+                            <div
+                              className="action-icon"
+                              onClick={() => {
+                                handleUpdate(
+                                  _id,
+                                  name,
+                                  phone,
+                                  image,
+                                  aadharNumber,
+                                  panNumber,
+                                  dob,
+                                  signaturePhoto,
+                                  chequeOrPassbookPhoto,
+                                  aadharPhoto,
+                                  panPhoto
+                                );
+                              }}
+                            >
+                              <AiOutlineEdit className="normal-icon mx-1" />
+                            </div>
+                            <div className="inline-block text-red-500 up-icon hover:text-red-700">
+                              <FaRegTrashAlt
+                                className="normal-icon"
+                                onClick={() => {}}
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    }
+                  )}
               </tbody>
             </table>
           </div>
