@@ -4,15 +4,20 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useSidebar } from "@/context/SidebarContext";
 import { useSearchParams } from "next/navigation";
-import { fetchData } from "@/utils/dbFuncs";
-import { formatDate } from "@/utils/utilityFuncs";
+import { fetchData, postData } from "@/utils/dbFuncs";
+import { formatDate, raiseToast } from "@/utils/utilityFuncs";
 
+import Modal from "@/components/Modal";
+import { FaPlus, FaMinus } from "react-icons/fa";
 const ClientDetails = () => {
   const { marginForSidebar } = useSidebar();
 
   const searchParams = useSearchParams();
   const [clientdetails, setClientdetails] = useState({});
   const [loandetails, setLoandetails] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState("");
+  const [selectedLoanID, setSelectedLoanID] = useState("");
 
   useEffect(() => {
     const fetchClientDetails = async () => {
@@ -98,6 +103,63 @@ const ClientDetails = () => {
       src: clientdetails.chequeOrPassbookPhoto,
     },
   ];
+
+  const handleButtonClick = (type, _id) => {
+    setShowModal(true);
+    setModalType(type);
+    setSelectedLoanID(_id);
+  };
+
+  const onConfirm = async (amount, _id) => {
+    try {
+      setShowModal(false); // Close the modal first
+
+      // Convert amount to a number (assuming amount is a string)
+      const amountValue = parseFloat(amount);
+
+      if (isNaN(amountValue) || amountValue <= 0) {
+        // Handle invalid amount input
+        raiseToast("error", "Please enter a valid positive number for amount.");
+        return;
+      }
+
+      // 1. Fetch current loan details
+      const fetchApi = `/api/loan/getloandetails/?_id=${_id}`;
+      const response = await fetchData(fetchApi);
+      const currentLoan = response.loan;
+
+      // 2. Calculate updated amount based on type
+      let updatedAmount = 0;
+      if (modalType === "green") {
+        updatedAmount = currentLoan.amount + amountValue;
+      } else if (modalType === "red") {
+        updatedAmount = currentLoan.amount - amountValue;
+      }
+
+      // 3. Prepare data for update
+      const updateData = {
+        _id: currentLoan._id,
+        amount: updatedAmount,
+      };
+
+      // 4. Send update request to API
+      const updateApi = `/api/loan/updateloan/?_id=${_id}`;
+      const updateResponse = await postData("PATCH", updateData, updateApi);
+
+      if (updateResponse.success) {
+        // Handle success scenario
+        raiseToast("success", "Loan updated successfully");
+        // Optionally, update local state or reload data if necessary
+      } else {
+        // Handle failure scenario
+        raiseToast("error", "Failed to update loan");
+      }
+    } catch (error) {
+      console.error("Error updating loan:", error);
+      raiseToast("error", "Failed to update loan");
+      // Handle error scenario
+    }
+  };
 
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
@@ -193,7 +255,28 @@ const ClientDetails = () => {
                                 {formatDate(startDate)}
                               </td>
                               <td className="table-data">{type}</td>
-                              <td className="table-data space-x-2 space-y-2"></td>
+                              <td className="table-data">
+                                <div className="flex space-x-2 w-full">
+                                  <button
+                                    className="flex-1 flex items-center justify-center bg-green-500 text-white font-semibold py-2 px-4 rounded shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
+                                    onClick={() =>
+                                      handleButtonClick("green", _id)
+                                    }
+                                  >
+                                    <FaPlus className="mr-2" />
+                                    Increase Loan
+                                  </button>
+                                  <button
+                                    className="flex-1 flex items-center justify-center bg-red-500 text-white font-semibold py-2 px-4 rounded shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75"
+                                    onClick={() =>
+                                      handleButtonClick("red", _id)
+                                    }
+                                  >
+                                    <FaMinus className="mr-2" />
+                                    Pay Back
+                                  </button>
+                                </div>
+                              </td>
                             </tr>
                           );
                         })}
@@ -220,6 +303,13 @@ const ClientDetails = () => {
           </div>
         </div>
       </div>
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        type={modalType}
+        onConfirm={onConfirm}
+        selectedLoanID={selectedLoanID}
+      />
     </section>
   );
 };
