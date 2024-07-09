@@ -42,7 +42,9 @@ const AddLoan = () => {
   const [client, setClient] = useState(
     searchParams.get("encoded_clientName") ?? ""
   );
-  const [clientID, setClientID] = useState(searchParams.get("encoded_clientID") ?? "");
+  const [clientID, setClientID] = useState(
+    searchParams.get("encoded_clientID") ?? ""
+  );
   const [fetchedClients, setFetchedClients] = useState([]);
   const [_id, set_id] = useState(searchParams.get("encoded__id") ?? null);
 
