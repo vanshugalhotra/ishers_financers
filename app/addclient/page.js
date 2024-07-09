@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSidebar } from "@/context/SidebarContext";
 import InputContainer from "@/components/Form/InputContainer";
 import DobPicker from "@/components/Form/DobPicker";

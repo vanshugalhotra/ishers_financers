@@ -48,3 +48,11 @@ export async function uploadFileToServer(file, fileType, phoneNumber) {
     throw error;
   }
 }
+
+export const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = date.getUTCDate();
+  const month = date.toLocaleString("default", { month: "long" });
+  const year = date.getUTCFullYear();
+  return `${day} ${month} ${year}`;
+};
