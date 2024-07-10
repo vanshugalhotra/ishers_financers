@@ -2,14 +2,15 @@ import Client from "@/models/Client";
 import connectDb from "@/db/mongoose";
 
 const handler = async (req, res) => {
-  if (req.method == "PATCH") {
-    const { _id } = req.body;
+  if (req.method === "PATCH") {
+    const { _id, loanId } = req.body;
 
     try {
-      const client = await Client.findByIdAndUpdate(_id, req.body, {
-        new: true,
-        runValidators: true,
-      });
+      const client = await Client.findByIdAndUpdate(
+        _id,
+        { $pull: { loans: loanId } },
+        { new: true, runValidators: true }
+      );
 
       if (!client) {
         return res

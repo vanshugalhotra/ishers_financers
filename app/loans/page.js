@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { useSidebar } from "@/context/SidebarContext";
 import { useRouter } from "next/navigation";
+import ConfirmationModal from "@/components/Modal/ConfirmationModal";
+import { postData } from "@/utils/dbFuncs";
+import { raiseToast } from "@/utils/utilityFuncs";
 
 import Link from "next/link";
 import { fetchData } from "@/utils/dbFuncs";
@@ -18,6 +21,10 @@ const Loans = () => {
   const { marginForSidebar } = useSidebar();
   const [searchQuery, setSearchQuery] = useState("");
   const [loans, setLoans] = useState([]);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedLoanID, setSelectedLoanID] = useState(null);
+  const [selectedClientID, setSelectedClientID] = useState(null);
 
   const router = useRouter();
 
@@ -84,6 +91,49 @@ const Loans = () => {
     const url = `/addloan?${queryParams}`;
 
     router.push(url);
+  };
+
+  const handleDelete = async (_id, clientID) => {
+    setSelectedLoanID(_id);
+    setShowDeleteModal(true);
+    setSelectedClientID(clientID);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      // Close the modal first
+      setShowDeleteModal(false);
+
+      // Remove the loan ID from the client's loans array
+      const clientUpdateResult = await postData(
+        "PATCH",
+        {
+          _id: selectedClientID,
+          loanId: selectedLoanID,
+        },
+        `/api/client/updateclient`
+      );
+
+      if (clientUpdateResult.success) {
+        // Now delete the loan
+        const loanDeleteResult = await postData(
+          "DELETE",
+          {},
+          `/api/loan/deleteloan?_id=${selectedLoanID}`
+        );
+
+        if (loanDeleteResult.success) {
+          raiseToast("success", "Loan Deleted Successfully!!");
+        } else {
+          raiseToast("error", "Loan Deletion Failed!!");
+        }
+      } else {
+        raiseToast("error", "Failed to update client loans array.");
+      }
+    } catch (error) {
+      console.error("Error deleting loan:", error);
+      raiseToast("error", error.message);
+    }
   };
 
   return (
@@ -215,7 +265,9 @@ const Loans = () => {
                             <div className="inline-block text-red-500 up-icon hover:text-red-700">
                               <FaRegTrashAlt
                                 className="normal-icon"
-                                onClick={() => {}}
+                                onClick={() => {
+                                  handleDelete(_id, client._id);
+                                }}
                               />
                             </div>
                           </td>
@@ -228,6 +280,13 @@ const Loans = () => {
           </div>
         </div>
       </div>
+
+      <ConfirmationModal
+        showModal={showDeleteModal}
+        setShowModal={setShowDeleteModal}
+        onConfirm={confirmDelete}
+        message="This action will delete the loan and remove its reference from the client. This action cannot be undone."
+      />
     </section>
   );
 };
