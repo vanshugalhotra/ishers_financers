@@ -6,6 +6,7 @@ const InputContainer = ({
   onChange,
   type = "text",
   fullWidth = false,
+  disabled = false,
 }) => {
   return (
     <div className="input-item">
@@ -17,6 +18,7 @@ const InputContainer = ({
         className={`input-box ${fullWidth ? "!w-full" : ""}`}
         value={value}
         onChange={onChange}
+        disabled={disabled}
       />
     </div>
   );

@@ -228,6 +228,7 @@ const AddClient = () => {
                 setClientPhone(event.target.value);
               }}
               fullWidth={true}
+              disabled={_id ? true : false}
             />
           </div>
 
