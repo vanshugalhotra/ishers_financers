@@ -56,7 +56,6 @@ export default async function upload(req, res) {
 
       await fs.move(tempFilePath, uploadPath, { overwrite: true }); // Move the uploaded file to the desired location
 
-      console.log("File saved at:", uploadPath);
       res
         .status(200)
         .json({ message: "File uploaded successfully", file: uploadPath });

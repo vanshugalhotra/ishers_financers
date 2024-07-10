@@ -182,7 +182,12 @@ const Loans = () => {
                           <td className="table-data">{loanNo}</td>
                           <td className="table-data">{`₹ ${amount}`}</td>
                           <td className="table-data space-y-2">
-                            <div className="action-icon" onClick={() => {}}>
+                            <div
+                              className="action-icon"
+                              onClick={() => {
+                                router.push(`/loandetails?_id=${_id}`);
+                              }}
+                            >
                               <FaRegEye className="normal-icon" />
                             </div>
                             <div

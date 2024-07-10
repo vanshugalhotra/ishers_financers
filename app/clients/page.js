@@ -142,9 +142,6 @@ const Clients = () => {
                     Phone
                   </th>
                   <th scope="col" className="table-heading">
-                    Amount (₹)
-                  </th>
-                  <th scope="col" className="table-heading">
                     Action
                   </th>
                 </tr>
@@ -192,7 +189,6 @@ const Clients = () => {
                           </th>
                           <td className="table-data">{name}</td>
                           <td className="table-data">{phone}</td>
-                          <td className="table-data">{`₹ 1000`}</td>
                           <td className="table-data space-y-2">
                             <div
                               className="action-icon"
