@@ -19,7 +19,7 @@ const Navbar = () => {
         <FiMenu className="h-8 w-8" />
       </div>
       <div className="heading uppercase text-4xl lg:text-5xl font-medium self-center">
-        Finance Dashboard
+        Isher&apos;s Financers
       </div>
     </nav>
   );

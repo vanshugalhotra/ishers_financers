@@ -123,7 +123,7 @@ const Sidebar = () => {
           <div className="flex flex-col h-full">
             {/* user details */}
             <div className="user-details inline-flex justify-center flex-col items-center mt-4 border-b-2 border-gray-200 border-opacity-60">
-              <div className="user-icon relative w-56 h-40">
+              <div className="user-icon relative w-full h-40">
                 <Image
                   alt="User"
                   className=""

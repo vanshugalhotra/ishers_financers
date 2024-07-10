@@ -66,15 +66,15 @@ const LoanDetails = () => {
     },
     {
       title: "Duration (Years)",
-      value: loandetails.duration,
+      value: `${loandetails.duration} Years`,
     },
     {
       title: "Interest (% P.A)",
-      value: loandetails.interest,
+      value: `${loandetails.interest} %`,
     },
     {
       title: "Amount (₹)",
-      value: loandetails.amount,
+      value: `₹ ${loandetails.amount}`,
     },
     {
       title: "Type",
