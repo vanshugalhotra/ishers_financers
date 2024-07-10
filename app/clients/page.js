@@ -15,10 +15,16 @@ import { FaRegEye, FaRegTrashAlt } from "react-icons/fa";
 import { AiOutlineEdit } from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
 
+import ConfirmationModal from "@/components/Modal/ConfirmationModal";
+import { raiseToast } from "@/utils/utilityFuncs";
+
 const Clients = () => {
   const { marginForSidebar } = useSidebar();
   const [searchQuery, setSearchQuery] = useState("");
   const [clients, setClients] = useState([]);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedClientID, setSelectedClientID] = useState(null);
 
   const router = useRouter();
 
@@ -89,6 +95,58 @@ const Clients = () => {
     const url = `/addclient?${queryParams}`;
 
     router.push(url);
+  };
+
+  const handleDelete = async (_id) => {
+    setSelectedClientID(_id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      // Fetch client details to get the list of loans
+      const clientResponse = await fetch(
+        `/api/client/getsingleclient?_id=${selectedClientID}`
+      );
+      const clientResult = await clientResponse.json();
+
+      if (clientResult.success) {
+        const { loans } = clientResult.client;
+
+        // Delete all associated loans
+        for (const loanId of loans) {
+          await fetch(`/api/loan/deleteloan?_id=${loanId}`, {
+            method: "DELETE",
+          });
+        }
+
+        // After deleting all loans, delete the client
+        const clientDeleteResponse = await fetch(
+          `/api/client/deleteclient?_id=${selectedClientID}`,
+          {
+            method: "DELETE",
+          }
+        );
+        const clientDeleteResult = await clientDeleteResponse.json();
+
+        if (clientDeleteResult.success) {
+          raiseToast(
+            "success",
+            "Client and associated loans deleted successfully!"
+          );
+        } else {
+          raiseToast("error", "Failed to delete the client.");
+        }
+      } else {
+        raiseToast("error", "Failed to fetch client details.");
+      }
+    } catch (error) {
+      console.error("Error deleting client and loans:", error);
+      raiseToast(
+        "error",
+        "An error occurred while deleting the client and loans."
+      );
+    }
   };
 
   return (
@@ -221,7 +279,9 @@ const Clients = () => {
                             <div className="inline-block text-red-500 up-icon hover:text-red-700">
                               <FaRegTrashAlt
                                 className="normal-icon"
-                                onClick={() => {}}
+                                onClick={() => {
+                                  handleDelete(_id);
+                                }}
                               />
                             </div>
                           </td>
@@ -234,6 +294,12 @@ const Clients = () => {
           </div>
         </div>
       </div>
+      <ConfirmationModal
+        showModal={showDeleteModal}
+        setShowModal={setShowDeleteModal}
+        onConfirm={confirmDelete}
+        message="Deleting this client will also delete all associated loans. This action cannot be undone."
+      />
     </section>
   );
 };

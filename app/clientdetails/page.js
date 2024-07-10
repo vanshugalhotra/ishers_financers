@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { fetchData, postData } from "@/utils/dbFuncs";
 import { formatDate, raiseToast } from "@/utils/utilityFuncs";
 
-import Modal from "@/components/Modal";
+import Modal from "@/components/Modal/Modal";
 import { FaPlus, FaMinus } from "react-icons/fa";
 const ClientDetails = () => {
   const { marginForSidebar } = useSidebar();

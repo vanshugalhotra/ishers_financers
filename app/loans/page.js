@@ -168,17 +168,21 @@ const Loans = () => {
                             scope="row"
                             className="flex items-center table-data text-gray-900 whitespace-nowrap dark:text-white"
                           >
-                            <Image
-                              alt="Upload"
-                              className="w-16 h-16"
-                              layout="fixed"
-                              width={58}
-                              height={58}
-                              objectFit="cover"
-                              src={`/assets/images/CLIENT/${client.phone}/${client.image}`}
-                            />
+                            {client && (
+                              <Image
+                                alt="Upload"
+                                className="w-16 h-16"
+                                layout="fixed"
+                                width={58}
+                                height={58}
+                                objectFit="cover"
+                                src={`/assets/images/CLIENT/${client.phone}/${client.image}`}
+                              />
+                            )}
                           </th>
-                          <td className="table-data">{client.name}</td>
+                          <td className="table-data">
+                            {client ? client.name : ""}
+                          </td>
                           <td className="table-data">{loanNo}</td>
                           <td className="table-data">{`₹ ${amount}`}</td>
                           <td className="table-data space-y-2">

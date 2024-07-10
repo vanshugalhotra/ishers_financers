@@ -7,7 +7,7 @@ import { fetchData, postData } from "@/utils/dbFuncs";
 import { raiseToast, formatDate } from "@/utils/utilityFuncs";
 import Image from "next/image";
 import { FaPlus, FaMinus, FaRegUser } from "react-icons/fa";
-import Modal from "@/components/Modal";
+import Modal from "@/components/Modal/Modal";
 
 const LoanDetails = () => {
   const searchParams = useSearchParams();
