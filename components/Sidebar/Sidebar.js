@@ -8,7 +8,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
-import { IoIosArrowBack, IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowDown, IoIosLogOut } from "react-icons/io";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { TbMoneybag } from "react-icons/tb";
 import { CgUserList } from "react-icons/cg";
@@ -63,7 +63,7 @@ const SubMenu = ({ name, MenuIcon, url }) => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar = ({ handleLogout }) => {
   const {
     isSidebarOpen,
     toggleSideBar,
@@ -193,6 +193,20 @@ const Sidebar = () => {
                   MenuIcon={TbMoneybag}
                   url="/addloan"
                 />
+
+                <li>
+                  <Link
+                    className={`sidebar-nav-link`}
+                    href={"/"}
+                    onClick={() => {
+                      handleLogout();
+                    }}
+                    id="logout"
+                  >
+                    <IoIosLogOut className="h-6 w-6 min-w-max" />
+                    <p className="sidebar-nav-link-p">Logout</p>
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
