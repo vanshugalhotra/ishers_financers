@@ -17,7 +17,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className} style={{background: "#effaff"}}>
         <NextTopLoader
           color="#FF9F43"
           initialPosition={0.08}
