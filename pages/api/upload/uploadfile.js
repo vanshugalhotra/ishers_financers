@@ -14,8 +14,13 @@ export default async function upload(req, res) {
     return;
   }
 
+  const tempDir = path.join(process.cwd(), "public/assets/images/temp");
+
+  // Ensure the temporary directory exists
+  await fs.ensureDir(tempDir);
+
   const form = formidable({
-    uploadDir: path.join(process.cwd(), "public/assets/images/temp"),
+    uploadDir: tempDir,
     keepExtensions: true,
     multiples: false, // Disable multiple file uploads
   });
@@ -40,7 +45,8 @@ export default async function upload(req, res) {
     );
 
     try {
-      await fs.ensureDir(uploadDir); // Ensure the client's directory exists
+      // Ensure the client's directory exists
+      await fs.ensureDir(uploadDir);
 
       const uploadPath = path.join(uploadDir, file.originalFilename);
       const tempFilePath = file.filepath;
@@ -54,7 +60,8 @@ export default async function upload(req, res) {
         );
       }
 
-      await fs.move(tempFilePath, uploadPath, { overwrite: true }); // Move the uploaded file to the desired location
+      // Move the uploaded file to the desired location
+      await fs.move(tempFilePath, uploadPath, { overwrite: true });
 
       res
         .status(200)
