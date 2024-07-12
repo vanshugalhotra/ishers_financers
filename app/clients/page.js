@@ -78,11 +78,11 @@ const Clients = () => {
       aadharNo: aadharNumber,
       panNumber,
       dob,
-      panImage: panPhoto,
-      clientImage: image,
-      chequeImage: chequeOrPassbookPhoto,
-      aadharImage: aadharPhoto,
-      Signature: signaturePhoto,
+      panImage: panPhoto.name,
+      clientImage: image.name,
+      chequeImage: chequeOrPassbookPhoto.name,
+      aadharImage: aadharPhoto.name,
+      Signature: signaturePhoto.name,
     };
     const queryParams = Object.keys(data)
       .map((key) => {
