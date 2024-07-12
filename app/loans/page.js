@@ -226,7 +226,7 @@ const Loans = () => {
                                 width={58}
                                 height={58}
                                 objectFit="cover"
-                                src={`/assets/images/CLIENT/${client.phone}/${client.image}`}
+                                src={client.image.url}
                               />
                             )}
                           </th>

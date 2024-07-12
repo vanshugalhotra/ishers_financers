@@ -15,8 +15,8 @@ const clientSchema = new Schema(
       unique: true,
     },
     signaturePhoto: {
-      type: String,
-      required: true,
+      name: { type: String, required: true },
+      url: { type: String, required: true },
     },
     aadharNumber: {
       type: String,
@@ -24,8 +24,8 @@ const clientSchema = new Schema(
       unique: true,
     },
     aadharPhoto: {
-      type: String,
-      required: true,
+      name: { type: String, required: true },
+      url: { type: String, required: true },
     },
     panNumber: {
       type: String,
@@ -33,12 +33,12 @@ const clientSchema = new Schema(
       unique: true,
     },
     panPhoto: {
-      type: String,
-      required: true,
+      name: { type: String, required: true },
+      url: { type: String, required: true },
     },
     chequeOrPassbookPhoto: {
-      type: String,
-      required: true,
+      name: { type: String, required: true },
+      url: { type: String, required: true },
     },
     loans: [
       {
@@ -50,8 +50,8 @@ const clientSchema = new Schema(
       type: Date,
     },
     image: {
-      type: String,
-      default: "avatar.svg",
+      name: { type: String },
+      url: { type: String },
     },
   },
   {

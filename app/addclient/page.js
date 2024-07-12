@@ -9,6 +9,7 @@ import Link from "next/link";
 import { raiseToast, uploadFileToServer } from "@/utils/utilityFuncs";
 import { postData } from "@/utils/dbFuncs";
 import { useRouter, useSearchParams } from "next/navigation";
+import BlobUpload from "@/components/Form/BlobUpload";
 
 const AddClient = () => {
   const { marginForSidebar } = useSidebar();
@@ -87,18 +88,12 @@ const AddClient = () => {
         raiseToast("error", "Cheque or Passbook Image is required!!");
         return;
       }
-
       const data = {
         name: clientName,
         phone: clientPhone,
-        signaturePhoto: Signature.name,
         aadharNumber: aadharNo,
-        aadharPhoto: aadharImage.name,
         panNumber: panNumber,
-        panPhoto: panImage.name,
-        chequeOrPassbookPhoto: chequeImage.name,
         dob: dob ? dob : null,
-        image: clientImage.name,
       };
 
       let METHOD = "POST";
@@ -112,68 +107,103 @@ const AddClient = () => {
       }
 
       // Upload Aadhar Image
-      if (aadharImage.name) {
-        const aadharUploadResponse = await uploadFileToServer(
-          aadharImage,
-          FILE_TYPE,
-          clientPhone
+      if (aadharImage) {
+        const response = await fetch(
+          `/api/upload/uploadtoblob?filename=${aadharImage.name}`,
+          {
+            method: "POST",
+            body: aadharImage,
+          }
         );
-        if (!aadharUploadResponse.success) {
-          raiseToast("error", aadharUploadResponse.message);
-          return; // Stop further processing on error
+        const blobData = await response.json();
+        if (!blobData.url) {
+          raiseToast("error", "Failed to upload Aadhar Image");
+          return;
         }
+        data.aadharPhoto = {
+          name: aadharImage.name,
+          url: blobData.url,
+        };
       }
 
       // Upload PAN Image
-      if (panImage.name) {
-        const panUploadResponse = await uploadFileToServer(
-          panImage,
-          FILE_TYPE,
-          clientPhone
+      if (panImage) {
+        const response = await fetch(
+          `/api/upload/uploadtoblob?filename=${panImage.name}`,
+          {
+            method: "POST",
+            body: panImage,
+          }
         );
-        if (!panUploadResponse.success) {
-          raiseToast("error", panUploadResponse.message);
-          return; // Stop further processing on error
+        const blobData = await response.json();
+        if (!blobData.url) {
+          raiseToast("error", "Failed to upload PAN Image");
+          return;
         }
+        data.panPhoto = {
+          name: panImage.name,
+          url: blobData.url,
+        };
       }
 
       // Upload Signature Image
-      if (Signature.name) {
-        const signatureUploadResponse = await uploadFileToServer(
-          Signature,
-          FILE_TYPE,
-          clientPhone
+      if (Signature) {
+        const response = await fetch(
+          `/api/upload/uploadtoblob?filename=${Signature.name}`,
+          {
+            method: "POST",
+            body: Signature,
+          }
         );
-        if (!signatureUploadResponse.success) {
-          raiseToast("error", signatureUploadResponse.message);
-          return; // Stop further processing on error
+        const blobData = await response.json();
+        if (!blobData.url) {
+          raiseToast("error", "Failed to upload Signature Image");
+          return;
         }
+        data.signaturePhoto = {
+          name: Signature.name,
+          url: blobData.url,
+        };
       }
 
       // Upload Client Image
-      if (clientImage.name) {
-        const clientImageUploadResponse = await uploadFileToServer(
-          clientImage,
-          FILE_TYPE,
-          clientPhone
+      if (clientImage) {
+        const response = await fetch(
+          `/api/upload/uploadtoblob?filename=${clientImage.name}`,
+          {
+            method: "POST",
+            body: clientImage,
+          }
         );
-        if (!clientImageUploadResponse.success) {
-          raiseToast("error", clientImageUploadResponse.message);
-          return; // Stop further processing on error
+        const blobData = await response.json();
+        if (!blobData.url) {
+          raiseToast("error", "Failed to upload Client Image");
+          return;
         }
+        data.image = {
+          name: clientImage.name,
+          url: blobData.url,
+        };
       }
 
       // Upload Cheque Image
-      if (chequeImage.name) {
-        const chequeUploadResponse = await uploadFileToServer(
-          chequeImage,
-          FILE_TYPE,
-          clientPhone
+      if (chequeImage) {
+        const response = await fetch(
+          `/api/upload/uploadtoblob?filename=${chequeImage.name}`,
+          {
+            method: "POST",
+            body: chequeImage,
+          }
         );
-        if (!chequeUploadResponse.success) {
-          raiseToast("error", chequeUploadResponse.message);
-          return; // Stop further processing on error
+        const blobData = await response.json();
+        if (!blobData.url) {
+          raiseToast("error", "Failed to upload Cheque Image");
+          return;
         }
+        data.chequeOrPassbookPhoto = {
+          name: chequeImage.name,
+          url: blobData.url,
+        };
       }
 
       // All uploads successful, proceed to save data in database
@@ -267,7 +297,12 @@ const AddClient = () => {
           </div>
           {/* Aadhar Image */}
           <div className="input-item lg:col-span-1 md:col-span-1 z-0">
-            <Upload
+            {/* <Upload
+              name={"Aadhar Image"}
+              setState={setAadharImage}
+              imageVar={aadharImage}
+            /> */}
+            <BlobUpload
               name={"Aadhar Image"}
               setState={setAadharImage}
               imageVar={aadharImage}

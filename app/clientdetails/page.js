@@ -81,29 +81,31 @@ const ClientDetails = () => {
     },
   ];
 
-  const clientImages = [
-    {
-      title: "Client Image",
-      src: clientdetails.image,
-    },
-    {
-      title: "Client Signature",
-      src: clientdetails.signaturePhoto,
-    },
-    {
-      title: "Aadhar Image",
-      src: clientdetails.aadharPhoto,
-    },
-    {
-      title: "PAN Image",
-      src: clientdetails.panPhoto,
-    },
-    {
-      title: "Cheque or Passbook Photo",
-      src: clientdetails.chequeOrPassbookPhoto,
-    },
-  ];
-
+  let clientImages = [];
+  if (clientdetails.image) {
+    clientImages = [
+      {
+        title: "Client Image",
+        src: clientdetails.image.url,
+      },
+      {
+        title: "Client Signature",
+        src: clientdetails.signaturePhoto.url,
+      },
+      {
+        title: "Aadhar Image",
+        src: clientdetails.aadharPhoto.url,
+      },
+      {
+        title: "PAN Image",
+        src: clientdetails.panPhoto.url,
+      },
+      {
+        title: "Cheque or Passbook Photo",
+        src: clientdetails.chequeOrPassbookPhoto.url,
+      },
+    ];
+  }
   const handleButtonClick = (type, _id) => {
     setShowModal(true);
     setModalType(type);
@@ -292,7 +294,7 @@ const ClientDetails = () => {
               <div key={index} className="product-image mx-2 my-4">
                 <h3 className="text-center mb-2">{image.title}</h3>
                 <Image
-                  src={`/assets/images/CLIENT/${clientdetails.phone}/${image.src}`}
+                  src={image.src}
                   alt={`${image.title}`}
                   width={400}
                   height={150}
