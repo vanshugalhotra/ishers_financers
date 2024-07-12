@@ -36,5 +36,4 @@ yarn-error.log*
 next-env.d.ts
 
 #public files
-/public/assets/images/temp
 /public/assets/images/CLIENT
