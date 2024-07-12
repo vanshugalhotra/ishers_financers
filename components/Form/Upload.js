@@ -37,7 +37,7 @@ const Upload = ({ name, setState, imageVar }) => {
               width={48}
               height={48}
               objectFit="cover"
-              src="/assets/Images/Icons/upload.svg"
+              src="/assets/images/icons/upload.svg"
             />
             <h4 className="text-gray-900 tracking-wider leading-loose text-sm font-medium">
               Upload File

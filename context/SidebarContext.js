@@ -15,7 +15,7 @@ export const SidebarProvider = ({ children }) => {
   const sideBarData = {
     sideBarOpenWidth: "20vw",
     sideBarCloseWidth: "4vw",
-    sideBarImage: "/assets/Images/background/grad1.jpg",
+    sideBarImage: "/assets/images/background/grad1.jpg",
   };
   const windowWidth = useWindowWidth();
   const router = useRouter();
