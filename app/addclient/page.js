@@ -266,7 +266,7 @@ const AddClient = () => {
             </div>
           </div>
           {/* Aadhar Image */}
-          <div className="input-item lg:col-span-1 md:col-span-1">
+          <div className="input-item lg:col-span-1 md:col-span-1 z-0">
             <Upload
               name={"Aadhar Image"}
               setState={setAadharImage}
