@@ -6,14 +6,16 @@ import InputContainer from "@/components/Form/InputContainer";
 import DobPicker from "@/components/Form/DobPicker";
 import Upload from "@/components/Form/Upload";
 import Link from "next/link";
-import { raiseToast, uploadFileToServer } from "@/utils/utilityFuncs";
+import { raiseToast } from "@/utils/utilityFuncs";
 import { postData } from "@/utils/dbFuncs";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useLoading } from "@/context/LoadingContext";
 import BlobUpload from "@/components/Form/BlobUpload";
 import Loading from "@/components/Loading/Loading";
 
 const AddClient = () => {
   const { marginForSidebar } = useSidebar();
+  const { loading, startLoading, stopLoading } = useLoading(); // Access loading state and functions
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -47,8 +49,6 @@ const AddClient = () => {
     searchParams.get("encoded_chequeImage") ?? ""
   );
 
-  const [loading, setLoading] = useState(false);
-
   const [_id, set_id] = useState(searchParams.get("encoded__id") ?? null);
 
   const FILE_TYPE = "CLIENT";
@@ -59,46 +59,45 @@ const AddClient = () => {
 
   const submit = async () => {
     try {
-      setLoading(true); // Start loading
-
+      startLoading();
       if (!clientName) {
         raiseToast("error", "Client Name is required!!");
-        setLoading(false);
+
         return;
       }
       if (!clientPhone) {
         raiseToast("error", "Phone Number is required!!");
-        setLoading(false);
+
         return;
       }
       if (!Signature) {
         raiseToast("error", "Signature Photo is required!!");
-        setLoading(false);
+
         return;
       }
       if (!aadharNo) {
         raiseToast("error", "Aadhar Number is required!!");
-        setLoading(false);
+
         return;
       }
       if (!aadharImage) {
         raiseToast("error", "Aadhar Image is required!!");
-        setLoading(false);
+
         return;
       }
       if (!panNumber) {
         raiseToast("error", "PAN Number is required!!");
-        setLoading(false);
+
         return;
       }
       if (!panImage) {
         raiseToast("error", "PAN Photo is required!!");
-        setLoading(false);
+
         return;
       }
       if (!chequeImage) {
         raiseToast("error", "Cheque or Passbook Image is required!!");
-        setLoading(false);
+
         return;
       }
       const data = {
@@ -131,7 +130,7 @@ const AddClient = () => {
         const blobData = await response.json();
         if (!blobData.url) {
           raiseToast("error", "Failed to upload Aadhar Image");
-          setLoading(false);
+
           return;
         }
         data.aadharPhoto = {
@@ -152,7 +151,7 @@ const AddClient = () => {
         const blobData = await response.json();
         if (!blobData.url) {
           raiseToast("error", "Failed to upload PAN Image");
-          setLoading(false);
+
           return;
         }
         data.panPhoto = {
@@ -173,7 +172,7 @@ const AddClient = () => {
         const blobData = await response.json();
         if (!blobData.url) {
           raiseToast("error", "Failed to upload Signature Image");
-          setLoading(false);
+
           return;
         }
         data.signaturePhoto = {
@@ -194,7 +193,7 @@ const AddClient = () => {
         const blobData = await response.json();
         if (!blobData.url) {
           raiseToast("error", "Failed to upload Client Image");
-          setLoading(false);
+
           return;
         }
         data.image = {
@@ -215,7 +214,7 @@ const AddClient = () => {
         const blobData = await response.json();
         if (!blobData.url) {
           raiseToast("error", "Failed to upload Cheque Image");
-          setLoading(false);
+
           return;
         }
         data.chequeOrPassbookPhoto = {
@@ -240,13 +239,13 @@ const AddClient = () => {
     } catch (error) {
       raiseToast("error", error.message);
     } finally {
-      setLoading(false); // End loading
+      stopLoading();
     }
   };
 
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
-      <div>{loading && <Loading />}</div>
+      {loading && <Loading />}
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">

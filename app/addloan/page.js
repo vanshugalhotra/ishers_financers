@@ -12,11 +12,14 @@ import SuggestionInputWithID from "@/components/Form/SuggestionInput";
 import { raiseToast } from "@/utils/utilityFuncs";
 import { postData } from "@/utils/dbFuncs";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useLoading } from "@/context/LoadingContext";
+import Loading from "@/components/Loading/Loading";
 
 import { IoAddOutline } from "react-icons/io5";
 
 const AddLoan = () => {
   const { marginForSidebar } = useSidebar();
+  const { loading, startLoading, stopLoading } = useLoading(); // Access loading state and functions
 
   const searchParams = useSearchParams();
 
@@ -76,6 +79,7 @@ const AddLoan = () => {
   }, []); // Empty dependency array ensures this runs once on mount
 
   const submit = async () => {
+    startLoading();
     try {
       if (!loanNo) {
         raiseToast("error", "Loan Number is required!!");
@@ -132,11 +136,14 @@ const AddLoan = () => {
       }
     } catch (error) {
       raiseToast("error", error.message);
+    } finally {
+      stopLoading();
     }
   };
 
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
+      {loading && <Loading />}
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">

@@ -17,8 +17,12 @@ import { FaRegEye, FaRegTrashAlt } from "react-icons/fa";
 import { AiOutlineEdit } from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
 
+import { useLoading } from "@/context/LoadingContext";
+import Loading from "@/components/Loading/Loading";
+
 const Loans = () => {
   const { marginForSidebar } = useSidebar();
+  const { loading, startLoading, stopLoading } = useLoading(); // Access loading state and functions
   const [searchQuery, setSearchQuery] = useState("");
   const [loans, setLoans] = useState([]);
 
@@ -138,6 +142,7 @@ const Loans = () => {
 
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
+      {loading && <Loading />}
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">

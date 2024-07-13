@@ -17,9 +17,13 @@ import { CiSearch } from "react-icons/ci";
 
 import ConfirmationModal from "@/components/Modal/ConfirmationModal";
 import { raiseToast } from "@/utils/utilityFuncs";
+import { useLoading } from "@/context/LoadingContext";
+import Loading from "@/components/Loading/Loading";
 
 const Clients = () => {
   const { marginForSidebar } = useSidebar();
+  const { loading, startLoading, stopLoading } = useLoading(); // Access loading state and functions
+
   const [searchQuery, setSearchQuery] = useState("");
   const [clients, setClients] = useState([]);
 
@@ -30,6 +34,7 @@ const Clients = () => {
 
   useEffect(() => {
     const fetchInitialClients = async () => {
+      startLoading();
       try {
         const api = "/api/client/getclients";
         const initialClients = await fetchData(api);
@@ -37,11 +42,13 @@ const Clients = () => {
       } catch (error) {
         console.error("Error fetching initial clients:", error);
         // Handle error if needed
+      } finally {
+        stopLoading();
       }
     };
 
     fetchInitialClients(); // Invoke the async function to fetch data
-  }, []); // Empty dependency array ensures it runs only once after initial render
+  }, [startLoading, stopLoading]); // Empty dependency array ensures it runs only once after initial render
 
   // REACT STUFF
   useEffect(() => {
@@ -151,6 +158,7 @@ const Clients = () => {
 
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
+      {loading && <Loading />}
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">

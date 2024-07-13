@@ -8,6 +8,8 @@ import { raiseToast, formatDate } from "@/utils/utilityFuncs";
 import Image from "next/image";
 import { FaPlus, FaMinus, FaRegUser } from "react-icons/fa";
 import Modal from "@/components/Modal/Modal";
+import { useLoading } from "@/context/LoadingContext";
+import Loading from "@/components/Loading/Loading";
 
 const LoanDetails = () => {
   const searchParams = useSearchParams();
@@ -18,10 +20,12 @@ const LoanDetails = () => {
   const [selectedLoanID, setSelectedLoanID] = useState("");
 
   const { marginForSidebar } = useSidebar();
+  const { loading, startLoading, stopLoading } = useLoading(); // Access loading state and functions
   const router = useRouter();
 
   useEffect(() => {
     const fetchLoanDetails = async () => {
+      startLoading();
       try {
         const api = `/api/loan/getloandetails?_id=${searchParams.get("_id")}`;
         const loan = await fetchData(api);
@@ -29,11 +33,13 @@ const LoanDetails = () => {
       } catch (error) {
         console.error("Error fetching client details:", error);
         // Handle error if needed
+      } finally {
+        stopLoading();
       }
     };
 
     fetchLoanDetails(); // Invoke the async function to fetch data
-  }, [searchParams]);
+  }, [searchParams, startLoading, stopLoading]);
 
   useEffect(() => {
     const fetchClientDetails = async () => {
@@ -172,6 +178,7 @@ const LoanDetails = () => {
 
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
+      {loading && <Loading />}
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">

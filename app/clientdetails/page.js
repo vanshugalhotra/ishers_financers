@@ -6,11 +6,14 @@ import { useSidebar } from "@/context/SidebarContext";
 import { useSearchParams } from "next/navigation";
 import { fetchData, postData } from "@/utils/dbFuncs";
 import { formatDate, raiseToast } from "@/utils/utilityFuncs";
+import { useLoading } from "@/context/LoadingContext";
+import Loading from "@/components/Loading/Loading";
 
 import Modal from "@/components/Modal/Modal";
 import { FaPlus, FaMinus } from "react-icons/fa";
 const ClientDetails = () => {
   const { marginForSidebar } = useSidebar();
+  const { loading, startLoading, stopLoading } = useLoading(); // Access loading state and functions
 
   const searchParams = useSearchParams();
   const [clientdetails, setClientdetails] = useState({});
@@ -21,6 +24,7 @@ const ClientDetails = () => {
 
   useEffect(() => {
     const fetchClientDetails = async () => {
+      startLoading();
       try {
         const api = `/api/client/getsingleclient?_id=${searchParams.get(
           "_id"
@@ -30,11 +34,13 @@ const ClientDetails = () => {
       } catch (error) {
         console.error("Error fetching client details:", error);
         // Handle error if needed
+      } finally {
+        stopLoading();
       }
     };
 
     fetchClientDetails(); // Invoke the async function to fetch data
-  }, [searchParams]);
+  }, [searchParams, startLoading, stopLoading]);
 
   useEffect(() => {
     if (!clientdetails.loans) return; // Ensure loans exist before fetching details
@@ -113,6 +119,7 @@ const ClientDetails = () => {
   };
 
   const onConfirm = async (amount, _id) => {
+    startLoading();
     try {
       setShowModal(false); // Close the modal first
 
@@ -160,11 +167,14 @@ const ClientDetails = () => {
       console.error("Error updating loan:", error);
       raiseToast("error", "Failed to update loan");
       // Handle error scenario
+    } finally {
+      stopLoading();
     }
   };
 
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
+      {loading && <Loading />}
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">
