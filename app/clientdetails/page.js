@@ -40,7 +40,7 @@ const ClientDetails = () => {
     };
 
     fetchClientDetails(); // Invoke the async function to fetch data
-  }, [searchParams, startLoading, stopLoading]);
+  }, [searchParams]);
 
   useEffect(() => {
     if (!clientdetails.loans) return; // Ensure loans exist before fetching details

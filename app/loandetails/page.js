@@ -39,7 +39,7 @@ const LoanDetails = () => {
     };
 
     fetchLoanDetails(); // Invoke the async function to fetch data
-  }, [searchParams, startLoading, stopLoading]);
+  }, [searchParams]);
 
   useEffect(() => {
     const fetchClientDetails = async () => {

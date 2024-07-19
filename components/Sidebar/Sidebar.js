@@ -7,12 +7,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
-import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
-import { IoIosArrowBack, IoIosArrowDown, IoIosLogOut } from "react-icons/io";
-import { LuLayoutDashboard } from "react-icons/lu";
-import { TbMoneybag } from "react-icons/tb";
-import { CgUserList } from "react-icons/cg";
-import { MdOutlineAttachMoney } from "react-icons/md";
+import { IoIosArrowBack, IoIosArrowDown, IoIosLogOut, IoIosAnalytics ,IoIosAdd, IoIosPerson, IoIosPersonAdd, IoMdPerson, IoMdDesktop } from "react-icons/io";
 import { useSidebar } from "@/context/SidebarContext";
 
 const SidebarItem = ({ name, MenuIcon, url }) => {
@@ -73,11 +68,6 @@ const Sidebar = ({ handleLogout }) => {
     toggleClientSubMenu,
   } = useSidebar();
 
-  const pathname = usePathname();
-  const isActiveLink = (url) => {
-    return url === pathname;
-  };
-
   const { sideBarOpenWidth, sideBarCloseWidth, sideBarImage } = sideBarData;
 
   const Sidebar_animation = {
@@ -98,12 +88,12 @@ const Sidebar = ({ handleLogout }) => {
   const clientsSubMenu = [
     {
       name: "Add Client",
-      icon: AiOutlineUserAdd,
+      icon: IoIosPersonAdd,
       url: "/addclient",
     },
     {
       name: "Show Clients",
-      icon: CgUserList,
+      icon: IoIosPerson,
       url: "/clients",
     },
   ];
@@ -139,7 +129,7 @@ const Sidebar = ({ handleLogout }) => {
                 {/* dashboard */}
                 <SidebarItem
                   name="Dashboard"
-                  MenuIcon={LuLayoutDashboard}
+                  MenuIcon={IoMdDesktop}
                   url="/"
                 />
 
@@ -153,7 +143,7 @@ const Sidebar = ({ handleLogout }) => {
                     }}
                     id="clients"
                   >
-                    <AiOutlineUser className="h-6 w-6 min-w-max" />
+                    <IoMdPerson className="h-6 w-6 min-w-max" />
                     <p className="sidebar-nav-link-p">Clients</p>
                     <IoIosArrowDown
                       className={` ${
@@ -184,13 +174,13 @@ const Sidebar = ({ handleLogout }) => {
                 {/* records */}
                 <SidebarItem
                   name="Records"
-                  MenuIcon={MdOutlineAttachMoney}
+                  MenuIcon={IoIosAnalytics}
                   url="/loans"
                 />
                 {/* Add Loan */}
                 <SidebarItem
                   name="Add Loan"
-                  MenuIcon={TbMoneybag}
+                  MenuIcon={IoIosAdd}
                   url="/addloan"
                 />
 

@@ -12,10 +12,7 @@ import { fetchData } from "@/utils/dbFuncs";
 import { debounce } from "lodash";
 import Image from "next/image";
 
-import { IoAddOutline } from "react-icons/io5";
-import { FaRegEye, FaRegTrashAlt } from "react-icons/fa";
-import { AiOutlineEdit } from "react-icons/ai";
-import { CiSearch } from "react-icons/ci";
+import { IoIosAdd, IoIosSearch, IoIosBrush, IoIosEye, IoIosTrash } from "react-icons/io";
 
 import { useLoading } from "@/context/LoadingContext";
 import Loading from "@/components/Loading/Loading";
@@ -34,6 +31,7 @@ const Loans = () => {
 
   useEffect(() => {
     const fetchInitialLoans = async () => {
+      startLoading();
       try {
         const api = "/api/loan/getloans";
         const intialLoans = await fetchData(api);
@@ -41,6 +39,8 @@ const Loans = () => {
       } catch (error) {
         console.error("Error fetching initial loans:", error);
         // Handle error if needed
+      } finally {
+        stopLoading();
       }
     };
 
@@ -151,14 +151,14 @@ const Loans = () => {
           <p className="text-sm text-gray-600 py-1 tracking-wide">Your Loans</p>
         </div>
         <Link className="right-btn icon-btn" href={"/addloan"}>
-          <IoAddOutline className="w-6 h-6 text-white font-medium" />
+          <IoIosAdd className="w-6 h-6 text-white font-medium" />
           <span className="text-white font-medium px-2 text-lg">Add Loan</span>
         </Link>
       </div>
       <div className="my-8 rounded-lg border-2 border-gray-200 border-opacity-70 pb-8 shadow-sm">
         <div className="top-section py-6 px-4 flex flex-col md:flex-row justify-between items-center">
           <div className="search-bar w-full border-gray-300">
-            <CiSearch className="inline-flex text-gray-500 rounded-full cursor-pointer mx-2 up-icon" />
+            <IoIosSearch className="inline-flex text-gray-500 rounded-full cursor-pointer mx-2 up-icon" />
             <input
               type="text"
               placeholder="Search..."
@@ -247,7 +247,7 @@ const Loans = () => {
                                 router.push(`/loandetails?_id=${_id}`);
                               }}
                             >
-                              <FaRegEye className="normal-icon" />
+                              <IoIosEye className="normal-icon" />
                             </div>
                             <div
                               className="action-icon"
@@ -265,10 +265,10 @@ const Loans = () => {
                                 );
                               }}
                             >
-                              <AiOutlineEdit className="normal-icon mx-1" />
+                              <IoIosBrush className="normal-icon mx-1" />
                             </div>
                             <div className="inline-block text-red-500 up-icon hover:text-red-700">
-                              <FaRegTrashAlt
+                              <IoIosTrash
                                 className="normal-icon"
                                 onClick={() => {
                                   handleDelete(_id, client._id);

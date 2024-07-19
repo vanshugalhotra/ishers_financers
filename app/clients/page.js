@@ -10,10 +10,7 @@ import Image from "next/image";
 
 import { useRouter } from "next/navigation";
 
-import { IoAddOutline } from "react-icons/io5";
-import { FaRegEye, FaRegTrashAlt } from "react-icons/fa";
-import { AiOutlineEdit } from "react-icons/ai";
-import { CiSearch } from "react-icons/ci";
+import { IoIosAdd, IoIosSearch, IoIosBrush, IoIosEye, IoIosTrash } from "react-icons/io";
 
 import ConfirmationModal from "@/components/Modal/ConfirmationModal";
 import { raiseToast } from "@/utils/utilityFuncs";
@@ -48,7 +45,7 @@ const Clients = () => {
     };
 
     fetchInitialClients(); // Invoke the async function to fetch data
-  }, [startLoading, stopLoading]); // Empty dependency array ensures it runs only once after initial render
+  }, []); // Empty dependency array ensures it runs only once after initial render
 
   // REACT STUFF
   useEffect(() => {
@@ -169,7 +166,7 @@ const Clients = () => {
           </p>
         </div>
         <Link className="right-btn icon-btn" href={"/addclient"}>
-          <IoAddOutline className="w-6 h-6 text-white font-medium" />
+          <IoIosAdd className="w-6 h-6 text-white font-medium" />
           <span className="text-white font-medium px-2 text-lg">
             Add Client
           </span>
@@ -178,7 +175,7 @@ const Clients = () => {
       <div className="my-8 rounded-lg border-2 border-gray-200 border-opacity-70 pb-8 shadow-sm">
         <div className="top-section py-6 px-4 flex flex-col md:flex-row justify-between items-center">
           <div className="search-bar w-full border-gray-300">
-            <CiSearch className="inline-flex text-gray-500 rounded-full cursor-pointer mx-2 up-icon" />
+            <IoIosSearch className="inline-flex text-gray-500 rounded-full cursor-pointer mx-2 up-icon" />
             <input
               type="text"
               placeholder="Search..."
@@ -262,7 +259,7 @@ const Clients = () => {
                                 router.push(`/clientdetails?_id=${_id}`);
                               }}
                             >
-                              <FaRegEye className="normal-icon" />
+                              <IoIosEye className="normal-icon" />
                             </div>
                             <div
                               className="action-icon"
@@ -282,10 +279,10 @@ const Clients = () => {
                                 );
                               }}
                             >
-                              <AiOutlineEdit className="normal-icon mx-1" />
+                              <IoIosBrush className="normal-icon mx-1" />
                             </div>
                             <div className="inline-block text-red-500 up-icon hover:text-red-700">
-                              <FaRegTrashAlt
+                              <IoIosTrash
                                 className="normal-icon"
                                 onClick={() => {
                                   handleDelete(_id);
