@@ -10,7 +10,13 @@ import Image from "next/image";
 
 import { useRouter } from "next/navigation";
 
-import { IoIosAdd, IoIosSearch, IoIosBrush, IoIosEye, IoIosTrash } from "react-icons/io";
+import {
+  IoIosAdd,
+  IoIosSearch,
+  IoIosBrush,
+  IoIosEye,
+  IoIosTrash,
+} from "react-icons/io";
 
 import ConfirmationModal from "@/components/Modal/ConfirmationModal";
 import { raiseToast } from "@/utils/utilityFuncs";
@@ -71,9 +77,8 @@ const Clients = () => {
     panNumber,
     dob,
     signaturePhoto,
-    chequeOrPassbookPhoto,
-    aadharPhoto,
-    panPhoto
+    atm,
+    driveURL
   ) => {
     const data = {
       _id,
@@ -82,11 +87,10 @@ const Clients = () => {
       aadharNo: aadharNumber,
       panNumber,
       dob,
-      panImage: panPhoto.name,
       clientImage: image.name,
-      chequeImage: chequeOrPassbookPhoto.name,
-      aadharImage: aadharPhoto.name,
       Signature: signaturePhoto.name,
+      atm,
+      driveURL,
     };
     const queryParams = Object.keys(data)
       .map((key) => {
@@ -222,9 +226,8 @@ const Clients = () => {
                         panNumber,
                         dob,
                         signaturePhoto,
-                        chequeOrPassbookPhoto,
-                        aadharPhoto,
-                        panPhoto,
+                        driveURL,
+                        atm,
                       },
                       index
                     ) => {
@@ -273,9 +276,8 @@ const Clients = () => {
                                   panNumber,
                                   dob,
                                   signaturePhoto,
-                                  chequeOrPassbookPhoto,
-                                  aadharPhoto,
-                                  panPhoto
+                                  atm,
+                                  driveURL
                                 );
                               }}
                             >

@@ -104,18 +104,6 @@ const LoanDetails = () => {
         title: "Client Signature",
         src: clientdetails.signaturePhoto.url,
       },
-      {
-        title: "Aadhar Image",
-        src: clientdetails.aadharPhoto.url,
-      },
-      {
-        title: "PAN Image",
-        src: clientdetails.panPhoto.url,
-      },
-      {
-        title: "Cheque or Passbook Photo",
-        src: clientdetails.chequeOrPassbookPhoto.url,
-      },
     ];
   }
 

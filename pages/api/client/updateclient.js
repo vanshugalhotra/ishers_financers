@@ -2,24 +2,24 @@ import Client from "@/models/Client";
 import connectDb from "@/db/mongoose";
 
 const handler = async (req, res) => {
-  if (req.method === "PATCH") {
-    const { _id, loanId } = req.body;
+  if (req.method == "PATCH") {
+    const { _id } = req.body;
 
     try {
-      const client = await Client.findByIdAndUpdate(
-        _id,
-        { $pull: { loans: loanId } },
-        { new: true, runValidators: true }
-      );
+      const client = await Client.findByIdAndUpdate(_id, req.body, {
+        new: true,
+        runValidators: true,
+      });
 
       if (!client) {
         return res
           .status(404)
-          .json({ success: false, error: "Client not found" });
+          .json({ success: false, error: "client not found" });
       }
 
       res.status(200).json({ success: true });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ success: false, error: "Internal server error" });
     }
   } else {

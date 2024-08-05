@@ -4,14 +4,13 @@ import React, { useState } from "react";
 import { useSidebar } from "@/context/SidebarContext";
 import InputContainer from "@/components/Form/InputContainer";
 import DobPicker from "@/components/Form/DobPicker";
-import Upload from "@/components/Form/Upload";
 import Link from "next/link";
 import { raiseToast } from "@/utils/utilityFuncs";
 import { postData } from "@/utils/dbFuncs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLoading } from "@/context/LoadingContext";
-import BlobUpload from "@/components/Form/BlobUpload";
 import Loading from "@/components/Loading/Loading";
+import BlobUpload from "@/components/Form/BlobUpload";
 
 const AddClient = () => {
   const { marginForSidebar } = useSidebar();
@@ -32,26 +31,21 @@ const AddClient = () => {
   const [panNumber, setPanNumber] = useState(
     searchParams.get("encoded_panNumber") ?? ""
   );
-  const [dob, setDob] = useState(searchParams.get("encoded_dob") ?? "");
-  const [aadharImage, setAadharImage] = useState(
-    searchParams.get("encoded_aadharImage") ?? ""
+  const [dob, setDob] = useState(searchParams.get("encoded_dob") ?? new Date());
+  const [driveURL, setDriveURL] = useState(
+    searchParams.get("encoded_driveURL") ?? ""
   );
-  const [panImage, setPanImage] = useState(
-    searchParams.get("encoded_panImage") ?? ""
-  );
+
   const [Signature, setSignature] = useState(
     searchParams.get("encoded_Signature") ?? ""
   );
   const [clientImage, setClientImage] = useState(
     searchParams.get("encoded_clientImage") ?? ""
   );
-  const [chequeImage, setChequeImage] = useState(
-    searchParams.get("encoded_chequeImage") ?? ""
-  );
+
+  const [atm, setAtm] = useState(searchParams.get("encoded_atm") ?? "");
 
   const [_id, set_id] = useState(searchParams.get("encoded__id") ?? null);
-
-  const FILE_TYPE = "CLIENT";
 
   const handleDateChange = (date) => {
     setDob(date);
@@ -80,34 +74,21 @@ const AddClient = () => {
 
         return;
       }
-      if (!aadharImage) {
-        raiseToast("error", "Aadhar Image is required!!");
-
-        return;
-      }
       if (!panNumber) {
         raiseToast("error", "PAN Number is required!!");
 
         return;
       }
-      if (!panImage) {
-        raiseToast("error", "PAN Photo is required!!");
 
-        return;
-      }
-      if (!chequeImage) {
-        raiseToast("error", "Cheque or Passbook Image is required!!");
-
-        return;
-      }
       const data = {
         name: clientName,
         phone: clientPhone,
         aadharNumber: aadharNo,
         panNumber: panNumber,
         dob: dob ? dob : null,
+        atm: atm,
+        driveURL: driveURL,
       };
-
       let METHOD = "POST";
       let api = "/api/client/addclient";
 
@@ -116,48 +97,6 @@ const AddClient = () => {
         METHOD = "PATCH";
         api = "/api/client/updateclient";
         data._id = _id;
-      }
-
-      // Upload Aadhar Image
-      if (aadharImage) {
-        const response = await fetch(
-          `/api/upload/uploadtoblob?filename=${aadharImage.name}`,
-          {
-            method: "POST",
-            body: aadharImage,
-          }
-        );
-        const blobData = await response.json();
-        if (!blobData.url) {
-          raiseToast("error", "Failed to upload Aadhar Image");
-
-          return;
-        }
-        data.aadharPhoto = {
-          name: aadharImage.name,
-          url: blobData.url,
-        };
-      }
-
-      // Upload PAN Image
-      if (panImage) {
-        const response = await fetch(
-          `/api/upload/uploadtoblob?filename=${panImage.name}`,
-          {
-            method: "POST",
-            body: panImage,
-          }
-        );
-        const blobData = await response.json();
-        if (!blobData.url) {
-          raiseToast("error", "Failed to upload PAN Image");
-
-          return;
-        }
-        data.panPhoto = {
-          name: panImage.name,
-          url: blobData.url,
-        };
       }
 
       // Upload Signature Image
@@ -201,28 +140,6 @@ const AddClient = () => {
           url: blobData.url,
         };
       }
-
-      // Upload Cheque Image
-      if (chequeImage) {
-        const response = await fetch(
-          `/api/upload/uploadtoblob?filename=${chequeImage.name}`,
-          {
-            method: "POST",
-            body: chequeImage,
-          }
-        );
-        const blobData = await response.json();
-        if (!blobData.url) {
-          raiseToast("error", "Failed to upload Cheque Image");
-
-          return;
-        }
-        data.chequeOrPassbookPhoto = {
-          name: chequeImage.name,
-          url: blobData.url,
-        };
-      }
-
       // All uploads successful, proceed to save data in database
       const response = await postData(METHOD, data, api);
       if (response.success) {
@@ -281,18 +198,6 @@ const AddClient = () => {
               disabled={_id ? true : false}
             />
           </div>
-
-          {/* Aadhar Number*/}
-          <div className="lg:col-span-2">
-            <InputContainer
-              label={"Aadhar Card Number"}
-              value={aadharNo}
-              onChange={(event) => {
-                setAadharNo(event.target.value);
-              }}
-              fullWidth={true}
-            />
-          </div>
           {/* PAN Number*/}
           <div className="lg:col-span-1">
             <InputContainer
@@ -304,6 +209,30 @@ const AddClient = () => {
               fullWidth={true}
             />
           </div>
+          {/* Aadhar Number*/}
+          <div className="lg:col-span-1">
+            <InputContainer
+              label={"Aadhar Card Number"}
+              value={aadharNo}
+              onChange={(event) => {
+                setAadharNo(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
+
+          {/* ATM*/}
+          <div className="lg:col-span-1">
+            <InputContainer
+              label={"ATM (Optional)"}
+              value={atm}
+              onChange={(event) => {
+                setAtm(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
+
           {/*Date of Birth*/}
           <div className="lg:col-span-1">
             <div className="input-item">
@@ -315,38 +244,21 @@ const AddClient = () => {
               </div>
             </div>
           </div>
-          {/* Aadhar Image */}
-          <div className="input-item lg:col-span-1 md:col-span-1 z-0">
-            {/* <Upload
-              name={"Aadhar Image"}
-              setState={setAadharImage}
-              imageVar={aadharImage}
-            /> */}
-            <BlobUpload
-              name={"Aadhar Image"}
-              setState={setAadharImage}
-              imageVar={aadharImage}
-            />
-          </div>
-          {/* Pan Image */}
-          <div className="input-item lg:col-span-1 md:col-span-1">
-            <Upload
-              name={"Pan Card Image"}
-              setState={setPanImage}
-              imageVar={panImage}
-            />
-          </div>
-          {/* Cheque */}
-          <div className="input-item lg:col-span-2 md:col-span-1">
-            <Upload
-              name={"Cheque or Passbook Image"}
-              setState={setChequeImage}
-              imageVar={chequeImage}
+
+          {/* Drive URL*/}
+          <div className="lg:col-span-4">
+            <InputContainer
+              label={"Drive URL"}
+              value={driveURL}
+              onChange={(event) => {
+                setDriveURL(event.target.value);
+              }}
+              fullWidth={true}
             />
           </div>
           {/* Image */}
           <div className="input-item lg:col-span-2 md:col-span-1">
-            <Upload
+            <BlobUpload
               name={"Client Image"}
               setState={setClientImage}
               imageVar={clientImage}
@@ -354,7 +266,7 @@ const AddClient = () => {
           </div>
           {/* Signature */}
           <div className="input-item lg:col-span-1 md:col-span-1">
-            <Upload
+            <BlobUpload
               name={"Signature"}
               setState={setSignature}
               imageVar={Signature}

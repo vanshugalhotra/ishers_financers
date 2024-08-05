@@ -8,6 +8,7 @@ import { fetchData, postData } from "@/utils/dbFuncs";
 import { formatDate, raiseToast } from "@/utils/utilityFuncs";
 import { useLoading } from "@/context/LoadingContext";
 import Loading from "@/components/Loading/Loading";
+import CustomLink from "@/components/Others/CustomLink";
 
 import Modal from "@/components/Modal/Modal";
 import { FaPlus, FaMinus } from "react-icons/fa";
@@ -82,6 +83,15 @@ const ClientDetails = () => {
       value: clientdetails.panNumber,
     },
     {
+      title: "ATM",
+      value: clientdetails.atm,
+    },
+    {
+      title: "Drive URL",
+      value: clientdetails.driveURL ? clientdetails.driveURL : "",
+      isLink: true,
+    },
+    {
       title: "Date Of Birth",
       value: formatDate(clientdetails.dob),
     },
@@ -97,18 +107,6 @@ const ClientDetails = () => {
       {
         title: "Client Signature",
         src: clientdetails.signaturePhoto.url,
-      },
-      {
-        title: "Aadhar Image",
-        src: clientdetails.aadharPhoto.url,
-      },
-      {
-        title: "PAN Image",
-        src: clientdetails.panPhoto.url,
-      },
-      {
-        title: "Cheque or Passbook Photo",
-        src: clientdetails.chequeOrPassbookPhoto.url,
       },
     ];
   }
@@ -189,7 +187,7 @@ const ClientDetails = () => {
         <div className="product-details outline-none py-8 px-6 border-none flex md:flex-row flex-col">
           <div>
             <ul className="md:w-2/3 border-b">
-              {clientFields.map(({ title, value }, index) => (
+              {clientFields.map(({ title, value, isLink }, index) => (
                 <li
                   className={`product-details-item ${
                     index % 2 === 1 ? "bg-gray-100" : ""
@@ -197,7 +195,13 @@ const ClientDetails = () => {
                   key={index}
                 >
                   <h4 className="product-details-title">{title}</h4>
-                  <h6 className="product-details-value">{value}</h6>
+                  <h6 className="product-details-value">
+                    {isLink ? (
+                      <CustomLink href={value}>{value}</CustomLink>
+                    ) : (
+                      value
+                    )}
+                  </h6>
                 </li>
               ))}
             </ul>
