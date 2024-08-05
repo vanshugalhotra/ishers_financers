@@ -78,7 +78,8 @@ const Clients = () => {
     dob,
     signaturePhoto,
     atm,
-    driveURL
+    driveURL,
+    insurance
   ) => {
     const data = {
       _id,
@@ -91,6 +92,7 @@ const Clients = () => {
       Signature: signaturePhoto.name,
       atm,
       driveURL,
+      insurance,
     };
     const queryParams = Object.keys(data)
       .map((key) => {
@@ -154,6 +156,8 @@ const Clients = () => {
         "error",
         "An error occurred while deleting the client and loans."
       );
+    } finally {
+      router.refresh();
     }
   };
 
@@ -228,6 +232,7 @@ const Clients = () => {
                         signaturePhoto,
                         driveURL,
                         atm,
+                        insurance,
                       },
                       index
                     ) => {
@@ -277,7 +282,8 @@ const Clients = () => {
                                   dob,
                                   signaturePhoto,
                                   atm,
-                                  driveURL
+                                  driveURL,
+                                  insurance
                                 );
                               }}
                             >

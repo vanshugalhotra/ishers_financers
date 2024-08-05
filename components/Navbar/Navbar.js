@@ -19,7 +19,7 @@ const Navbar = () => {
         <FiMenu className="h-8 w-8" />
       </div>
       <div className="heading uppercase lg:text-5xl text-3xl font-medium self-center">
-        Isher&apos;s Financers
+        Isher Financers
       </div>
     </nav>
   );

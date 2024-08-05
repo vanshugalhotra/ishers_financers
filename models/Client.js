@@ -35,6 +35,9 @@ const clientSchema = new Schema(
     atm: {
       type: String,
     },
+    insurance: {
+      type: String,
+    },
     loans: [
       {
         type: Schema.Types.ObjectId,

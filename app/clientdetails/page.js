@@ -8,6 +8,7 @@ import { fetchData, postData } from "@/utils/dbFuncs";
 import { formatDate, raiseToast } from "@/utils/utilityFuncs";
 import { useLoading } from "@/context/LoadingContext";
 import Loading from "@/components/Loading/Loading";
+import { useRouter } from "next/navigation";
 import CustomLink from "@/components/Others/CustomLink";
 
 import Modal from "@/components/Modal/Modal";
@@ -22,6 +23,8 @@ const ClientDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   const [selectedLoanID, setSelectedLoanID] = useState("");
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchClientDetails = async () => {
@@ -85,6 +88,10 @@ const ClientDetails = () => {
     {
       title: "ATM",
       value: clientdetails.atm,
+    },
+    {
+      title: "Insurance",
+      value: clientdetails.insurance,
     },
     {
       title: "Drive URL",
@@ -156,6 +163,7 @@ const ClientDetails = () => {
       if (updateResponse.success) {
         // Handle success scenario
         raiseToast("success", "Loan updated successfully");
+        router.refresh();
         // Optionally, update local state or reload data if necessary
       } else {
         // Handle failure scenario
@@ -167,6 +175,7 @@ const ClientDetails = () => {
       // Handle error scenario
     } finally {
       stopLoading();
+      router.refresh();
     }
   };
 

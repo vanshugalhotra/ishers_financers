@@ -161,6 +161,8 @@ const LoanDetails = () => {
       console.error("Error updating loan:", error);
       raiseToast("error", "Failed to update loan");
       // Handle error scenario
+    } finally {
+      router.refresh();
     }
   };
 

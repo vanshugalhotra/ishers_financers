@@ -44,6 +44,7 @@ const AddClient = () => {
   );
 
   const [atm, setAtm] = useState(searchParams.get("encoded_atm") ?? "");
+  const [insurance, setInsurance] = useState(searchParams.get("encoded_insurance") ?? "");
 
   const [_id, set_id] = useState(searchParams.get("encoded__id") ?? null);
 
@@ -195,7 +196,6 @@ const AddClient = () => {
                 setClientPhone(event.target.value);
               }}
               fullWidth={true}
-              disabled={_id ? true : false}
             />
           </div>
           {/* PAN Number*/}
@@ -228,6 +228,17 @@ const AddClient = () => {
               value={atm}
               onChange={(event) => {
                 setAtm(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
+          {/* Insurance*/}
+          <div className="lg:col-span-1">
+            <InputContainer
+              label={"Insurance (Optional)"}
+              value={insurance}
+              onChange={(event) => {
+                setInsurance(event.target.value);
               }}
               fullWidth={true}
             />
