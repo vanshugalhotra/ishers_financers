@@ -23,18 +23,20 @@ const ClientDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   const [selectedLoanID, setSelectedLoanID] = useState("");
+  const [clientNotes, setClientNotes] = useState("");
 
   const router = useRouter();
+
+  const clientID = searchParams.get("_id");
 
   useEffect(() => {
     const fetchClientDetails = async () => {
       startLoading();
       try {
-        const api = `/api/client/getsingleclient?_id=${searchParams.get(
-          "_id"
-        )}`;
+        const api = `/api/client/getsingleclient?_id=${clientID}`;
         const client = await fetchData(api);
         setClientdetails(client.client); // Set state with fetched data
+        setClientNotes(client.client.note);
       } catch (error) {
         console.error("Error fetching client details:", error);
         // Handle error if needed
@@ -179,6 +181,23 @@ const ClientDetails = () => {
     }
   };
 
+  const handleSaveNotes = async () => {
+    try {
+      const data = { _id: clientID, note: clientNotes };
+      const api = "/api/client/updateclient";
+      const response = await postData("PATCH", data, api);
+
+      if (response.success) {
+        raiseToast("success", "Notes saved successfully!");
+      } else {
+        raiseToast("error", "Error saving notes");
+      }
+    } catch (error) {
+      console.error("Error saving client notes:", error);
+      raiseToast("error", "Error saving notes");
+    }
+  };
+
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
       {loading && <Loading />}
@@ -195,25 +214,44 @@ const ClientDetails = () => {
       <div className="my-8 brands-card rounded-lg border border-gray-200 border-opacity-70 pb-8 shadow-sm">
         <div className="product-details outline-none py-8 px-6 border-none flex md:flex-row flex-col">
           <div>
-            <ul className="md:w-2/3 border-b">
-              {clientFields.map(({ title, value, isLink }, index) => (
-                <li
-                  className={`product-details-item ${
-                    index % 2 === 1 ? "bg-gray-100" : ""
-                  }`}
-                  key={index}
+            <div className="top">
+              <ul className="md:w-2/3 border-b">
+                {clientFields.map(({ title, value, isLink }, index) => (
+                  <li
+                    className={`product-details-item ${
+                      index % 2 === 1 ? "bg-gray-100" : ""
+                    }`}
+                    key={index}
+                  >
+                    <h4 className="product-details-title">{title}</h4>
+                    <h6 className="product-details-value">
+                      {isLink ? (
+                        <CustomLink href={value}>{value}</CustomLink>
+                      ) : (
+                        value
+                      )}
+                    </h6>
+                  </li>
+                ))}
+              </ul>
+              <div className="notes-section mt-8 p-4 bg-white rounded-lg shadow-lg">
+                <h3 className="text-xl font-semibold mb-2 text-gray-800">
+                  Client Notes
+                </h3>
+                <textarea
+                  className="w-full h-56 p-4 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Write notes about the client here..."
+                  value={clientNotes}
+                  onChange={(e) => setClientNotes(e.target.value)}
+                ></textarea>
+                <button
+                  className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onClick={handleSaveNotes}
                 >
-                  <h4 className="product-details-title">{title}</h4>
-                  <h6 className="product-details-value">
-                    {isLink ? (
-                      <CustomLink href={value}>{value}</CustomLink>
-                    ) : (
-                      value
-                    )}
-                  </h6>
-                </li>
-              ))}
-            </ul>
+                  Save Notes
+                </button>
+              </div>
+            </div>
 
             <div className="px-4 my-10">
               <div className="text-2xl font-bold py-5 text-center text-gray-800 dark:text-gray-200">

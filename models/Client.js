@@ -38,6 +38,10 @@ const clientSchema = new Schema(
     insurance: {
       type: String,
     },
+    note: {
+      type: String,
+      default: "",
+    },
     loans: [
       {
         type: Schema.Types.ObjectId,
