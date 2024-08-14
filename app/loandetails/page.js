@@ -170,6 +170,31 @@ const LoanDetails = () => {
     }
   };
 
+  const exportToCSV = () => {
+    const headers = ["Date", "Amount", "Type"];
+    const rows = loandetails.ledger.map((entry) => [
+      formatDate(entry.date), // Assuming formatDate formats the date
+      entry.amount,
+      entry.type,
+    ]);
+
+    // Convert array to CSV string
+    let csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers, ...rows].map((row) => row.join(",")).join("\n");
+
+    // Create a download link
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "ledger.csv");
+    document.body.appendChild(link); // Required for Firefox
+
+    link.click(); // Trigger download
+
+    document.body.removeChild(link); // Cleanup
+  };
+
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
       {loading && <Loading />}
@@ -227,7 +252,16 @@ const LoanDetails = () => {
               </div>
             </div>
             <div className="ledger-section mt-8">
-              <h3 className="text-lg font-medium text-gray-900">Ledger</h3>
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-medium text-gray-900">Ledger</h3>
+                <button
+                  onClick={exportToCSV}
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                >
+                  Export
+                </button>
+              </div>
+
               {loandetails.ledger && loandetails.ledger.length > 0 ? (
                 <table className="w-full mt-4 border-collapse">
                   <thead>
