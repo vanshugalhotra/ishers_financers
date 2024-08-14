@@ -121,7 +121,6 @@ const LoanDetails = () => {
       const amountValue = parseFloat(amount);
 
       if (isNaN(amountValue) || amountValue <= 0) {
-        // Handle invalid amount input
         raiseToast("error", "Please enter a valid positive number for amount.");
         return;
       }
@@ -133,16 +132,25 @@ const LoanDetails = () => {
 
       // 2. Calculate updated amount based on type
       let updatedAmount = 0;
+      let transactionType = "";
       if (modalType === "green") {
         updatedAmount = currentLoan.amount + amountValue;
+        transactionType = "increase";
       } else if (modalType === "red") {
         updatedAmount = currentLoan.amount - amountValue;
+        transactionType = "repayment";
       }
 
       // 3. Prepare data for update
+      const ledgerEntry = {
+        amount: amountValue,
+        type: transactionType,
+      };
+
       const updateData = {
         _id: currentLoan._id,
         amount: updatedAmount,
+        $push: { ledger: ledgerEntry },
       };
 
       // 4. Send update request to API
@@ -150,17 +158,13 @@ const LoanDetails = () => {
       const updateResponse = await postData("PATCH", updateData, updateApi);
 
       if (updateResponse.success) {
-        // Handle success scenario
         raiseToast("success", "Loan updated successfully");
-        // Optionally, update local state or reload data if necessary
       } else {
-        // Handle failure scenario
         raiseToast("error", "Failed to update loan");
       }
     } catch (error) {
       console.error("Error updating loan:", error);
       raiseToast("error", "Failed to update loan");
-      // Handle error scenario
     } finally {
       router.refresh();
     }
@@ -221,6 +225,50 @@ const LoanDetails = () => {
                   View Client Details
                 </button>
               </div>
+            </div>
+            <div className="ledger-section mt-8">
+              <h3 className="text-lg font-medium text-gray-900">Ledger</h3>
+              {loandetails.ledger && loandetails.ledger.length > 0 ? (
+                <table className="w-full mt-4 border-collapse">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="py-2 px-4 text-left text-sm text-gray-600">
+                        Date
+                      </th>
+                      <th className="py-2 px-4 text-left text-sm text-gray-600">
+                        Amount
+                      </th>
+                      <th className="py-2 px-4 text-left text-sm text-gray-600">
+                        Type
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {loandetails.ledger.map((entry, index) => (
+                      <tr
+                        key={index}
+                        className={`border-b border-gray-100 ${
+                          entry.type === "repayment"
+                            ? "bg-green-100" // Green background for repayment
+                            : "bg-red-100" // Red background for increase
+                        }`}
+                      >
+                        <td className="py-2 px-4 text-sm">
+                          {formatDate(entry.date)}
+                        </td>
+                        <td className="py-2 px-4 text-sm">₹ {entry.amount}</td>
+                        <td className="py-2 px-4 text-sm capitalize">
+                          {entry.type}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <p className="text-sm text-gray-600 mt-2">
+                  No ledger entries available.
+                </p>
+              )}
             </div>
           </div>
 

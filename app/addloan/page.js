@@ -102,6 +102,7 @@ const AddLoan = () => {
         return;
       }
 
+      // Prepare loan data
       const data = {
         loanNo: loanNo,
         client: clientID,
@@ -112,19 +113,27 @@ const AddLoan = () => {
         duration: duration,
       };
 
-      let METHOD = "POST";
-      let api = "/api/loan/addloan";
-
-      if (_id) {
-        // if it is an update request
-        METHOD = "PATCH";
-        api = "/api/loan/updateloan";
-        data._id = _id;
+      // Add a ledger entry of type "increase" only when creating a new loan
+      if (!_id) {
+        data.ledger = [
+          {
+            date: new Date(),
+            amount: amount,
+            type: "increase",
+          },
+        ];
       }
 
+      // Determine the method and API endpoint
+      const METHOD = _id ? "PATCH" : "POST";
+      const api = _id ? "/api/loan/updateloan" : "/api/loan/addloan";
+
+      // Send request
       const response = await postData(METHOD, data, api);
+
+      // Handle response
       if (response.success) {
-        let message = _id
+        const message = _id
           ? "Loan Updated Successfully!!"
           : "Loan Added Successfully!!";
         raiseToast("success", message);

@@ -1,6 +1,23 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const ledgerEntrySchema = new Schema({
+  date: {
+    type: Date,
+    default: Date.now, // Automatically set the current date
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  type: {
+    type: String,
+    enum: ["repayment", "increase"], // Restrict to specific types
+    required: true,
+  },
+});
+
 const loanSchema = new Schema(
   {
     loanNo: {
@@ -33,6 +50,7 @@ const loanSchema = new Schema(
       type: Number,
       required: true,
     },
+    ledger: [ledgerEntrySchema], // Array to store transaction records
   },
   {
     timestamps: true,
