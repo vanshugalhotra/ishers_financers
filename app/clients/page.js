@@ -188,18 +188,20 @@ const Clients = () => {
       </div>
       <div className="my-8 rounded-lg border-2 border-gray-200 border-opacity-70 pb-8 shadow-sm">
         <div className="top-section py-6 px-4 flex flex-col md:flex-row justify-between items-center">
-          <div className="search-bar w-full border-gray-300">
-            <IoIosSearch className="inline-flex text-gray-500 rounded-full cursor-pointer mx-2 up-icon" />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="search-bar-input"
-              value={searchQuery}
-              onChange={handleSearchInputChange}
-            />
+          <div className="flex flex-col md:flex-row items-center w-full border-gray-300">
+            <div className="relative w-full">
+              <IoIosSearch className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500" />
+              <input
+                type="text"
+                placeholder="Search..."
+                className="search-bar-input pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={searchQuery}
+                onChange={handleSearchInputChange}
+              />
+            </div>
             <button
               onClick={handleSearchClick}
-              className="search-button ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg"
+              className="ml-2 mt-2 md:mt-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               Search
             </button>
