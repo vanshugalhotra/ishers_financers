@@ -50,6 +50,10 @@ const loanSchema = new Schema(
       type: Number,
       required: true,
     },
+    paid: {
+      type: Boolean,
+      default: false, // By default, the installment is not paid
+    },
     ledger: [ledgerEntrySchema], // Array to store transaction records
   },
   {

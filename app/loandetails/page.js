@@ -195,6 +195,27 @@ const LoanDetails = () => {
     document.body.removeChild(link); // Cleanup
   };
 
+  const savePaid = async () => {
+    try {
+      // Make the API call to save the 'paid' status
+      const updateData = {
+        _id: loandetails._id,
+        paid: loandetails.paid,
+      };
+      const updateApi = `/api/loan/updateloan/?_id=${loandetails._id}`;
+      const updateResponse = await postData("PATCH", updateData, updateApi);
+
+      if (updateResponse.success) {
+        raiseToast("success", "Paid status updated successfully");
+      } else {
+        raiseToast("error", "Failed to update paid status");
+      }
+    } catch (error) {
+      console.error("Error updating paid status:", error);
+      raiseToast("error", "Failed to update paid status");
+    }
+  };
+
   return (
     <section style={{ marginLeft: marginForSidebar }} className="py-8 px-8">
       {loading && <Loading />}
@@ -248,6 +269,29 @@ const LoanDetails = () => {
                 >
                   <FaRegUser className="mr-2" />
                   View Client Details
+                </button>
+              </div>
+              <div className="flex items-center justify-center my-7">
+                <input
+                  type="checkbox"
+                  id="paidCheckbox"
+                  checked={loandetails.paid} // Set the initial state based on loandetails.paid
+                  onChange={(e) =>
+                    setLoandetails({ ...loandetails, paid: e.target.checked })
+                  }
+                  className="w-6 h-6 text-green-500 bg-gray-100 border-gray-300 rounded focus:ring-green-400 focus:ring-opacity-75"
+                />
+                <label
+                  htmlFor="paidCheckbox"
+                  className="ml-2 text-sm font-medium text-gray-700"
+                >
+                  Installment Paid
+                </label>
+                <button
+                  className="ml-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
+                  onClick={savePaid}
+                >
+                  Save
                 </button>
               </div>
             </div>

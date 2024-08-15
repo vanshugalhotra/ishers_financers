@@ -146,19 +146,31 @@ const ClientDetails = () => {
 
       // 2. Calculate updated amount based on type
       let updatedAmount = 0;
+      let ledgerEntryType = "";
+
       if (modalType === "green") {
         updatedAmount = currentLoan.amount + amountValue;
+        ledgerEntryType = "increase"; // Set ledger type to "increase"
       } else if (modalType === "red") {
         updatedAmount = currentLoan.amount - amountValue;
+        ledgerEntryType = "repayment"; // Set ledger type to "repayment"
       }
 
-      // 3. Prepare data for update
+      // 3. Prepare ledger entry
+      const newLedgerEntry = {
+        date: new Date(),
+        amount: amountValue,
+        type: ledgerEntryType,
+      };
+
+      // 4. Prepare data for update (including the new ledger entry)
       const updateData = {
         _id: currentLoan._id,
         amount: updatedAmount,
+        ledger: [...currentLoan.ledger, newLedgerEntry], // Add new ledger entry to existing ledger
       };
 
-      // 4. Send update request to API
+      // 5. Send update request to API
       const updateApi = `/api/loan/updateloan/?_id=${_id}`;
       const updateResponse = await postData("PATCH", updateData, updateApi);
 
@@ -166,7 +178,6 @@ const ClientDetails = () => {
         // Handle success scenario
         raiseToast("success", "Loan updated successfully");
         router.refresh();
-        // Optionally, update local state or reload data if necessary
       } else {
         // Handle failure scenario
         raiseToast("error", "Failed to update loan");
@@ -174,7 +185,6 @@ const ClientDetails = () => {
     } catch (error) {
       console.error("Error updating loan:", error);
       raiseToast("error", "Failed to update loan");
-      // Handle error scenario
     } finally {
       stopLoading();
       router.refresh();
