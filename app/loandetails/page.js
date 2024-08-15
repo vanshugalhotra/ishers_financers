@@ -232,19 +232,17 @@ const LoanDetails = () => {
       <div className="my-8 brands-card rounded-lg border border-gray-200 border-opacity-70 pb-8 shadow-sm">
         <div className="product-details outline-none py-8 px-6 border-none flex md:flex-row flex-col">
           <div className="md:w-2/3">
-            <ul className="w-full border-b">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {loanFields.map(({ title, value }, index) => (
-                <li
-                  className={`product-details-item ${
-                    index % 2 === 1 ? "bg-gray-100" : ""
-                  }`}
-                  key={index}
-                >
-                  <h4 className="product-details-title">{title}</h4>
-                  <h6 className="product-details-value">{value}</h6>
-                </li>
+                <div key={index} className="p-4 bg-white rounded-lg shadow-md">
+                  <h4 className="text-sm font-medium text-gray-600">{title}</h4>
+                  <p className="mt-2 text-lg font-semibold text-gray-900">
+                    {value}
+                  </p>
+                </div>
               ))}
-            </ul>
+            </div>
+
             <div className="actions my-10 mx-4 lg:px-10 lg:my-20 lg:mx-20">
               <div className="flex space-x-2 flex-col md:flex-row space-y-3 md:space-y-0">
                 <button

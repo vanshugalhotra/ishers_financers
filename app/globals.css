@@ -119,3 +119,20 @@
     @apply text-sm font-medium p-3 w-2/3;
   }
 }
+
+tr:hover {
+  background-color: rgba(
+    55,
+    65,
+    81,
+    0.1
+  ); /* Tailwind's cool-gray-700 at 10% opacity */
+  cursor: pointer;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
+}

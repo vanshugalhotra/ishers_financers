@@ -53,16 +53,22 @@ const Clients = () => {
     fetchInitialClients(); // Invoke the async function to fetch data
   }, []); // Empty dependency array ensures it runs only once after initial render
 
-  // REACT STUFF
-  useEffect(() => {
-    const fetchResults = debounce(async () => {
+  const performSearch = async () => {
+    startLoading();
+    try {
       const api = `/api/client/getclients?search=${searchQuery}`;
       const results = await fetchData(api);
       setClients(results);
-    }, 500); // Adjust the debounce delay as needed
+    } catch (error) {
+      console.error("Error performing search:", error);
+    } finally {
+      stopLoading();
+    }
+  };
 
-    fetchResults();
-  }, [searchQuery]);
+  const handleSearchClick = () => {
+    performSearch();
+  };
 
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
@@ -191,6 +197,12 @@ const Clients = () => {
               value={searchQuery}
               onChange={handleSearchInputChange}
             />
+            <button
+              onClick={handleSearchClick}
+              className="search-button ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg"
+            >
+              Search
+            </button>
           </div>
         </div>
       </div>

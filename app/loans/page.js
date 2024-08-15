@@ -12,7 +12,13 @@ import { fetchData } from "@/utils/dbFuncs";
 import { debounce } from "lodash";
 import Image from "next/image";
 
-import { IoIosAdd, IoIosSearch, IoIosBrush, IoIosEye, IoIosTrash } from "react-icons/io";
+import {
+  IoIosAdd,
+  IoIosSearch,
+  IoIosBrush,
+  IoIosEye,
+  IoIosTrash,
+} from "react-icons/io";
 
 import { useLoading } from "@/context/LoadingContext";
 import Loading from "@/components/Loading/Loading";
@@ -47,16 +53,22 @@ const Loans = () => {
     fetchInitialLoans(); // Invoke the async function to fetch data
   }, []); // Empty dependency array ensures it runs only once after initial render
 
-  // REACT STUFF
-  useEffect(() => {
-    const fetchResults = debounce(async () => {
+  const performSearch = async () => {
+    startLoading();
+    try {
       const api = `/api/loan/getloans?search=${searchQuery}`;
       const results = await fetchData(api);
       setLoans(results);
-    }, 500); // Adjust the debounce delay as needed
+    } catch (error) {
+      console.error("Error performing search:", error);
+    } finally {
+      stopLoading();
+    }
+  };
 
-    fetchResults();
-  }, [searchQuery]);
+  const handleSearchClick = () => {
+    performSearch();
+  };
 
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
@@ -166,6 +178,12 @@ const Loans = () => {
               value={searchQuery}
               onChange={handleSearchInputChange}
             />
+            <button
+              onClick={handleSearchClick}
+              className="search-button ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg"
+            >
+              Search
+            </button>
           </div>
         </div>
       </div>
@@ -208,6 +226,7 @@ const Loans = () => {
                         duration,
                         type,
                         startDate,
+                        paid, // Ensure the paid field is available
                       },
                       index
                     ) => {
@@ -217,7 +236,14 @@ const Loans = () => {
                           key={_id}
                         >
                           <td className="table-data text-gray-900 font-semibold">
-                            {index + 1}.)
+                            <div className="flex items-center space-x-2">
+                              <span>{index + 1}.)</span>
+                              {!paid && (
+                                <span className="text-xs font-semibold inline-block py-1 px-2 rounded-full text-red-600 bg-red-200">
+                                  Unpaid
+                                </span>
+                              )}
+                            </div>
                           </td>
                           <th
                             scope="row"
