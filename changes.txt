@@ -3,4 +3,4 @@ ATM filed add                    ✅
 Insurance -> Photo and Number    ✅
 Text area in client details      ✅
 Ledger below loan detail         ✅
-Paid Non Paid Flag (Wether user paid or not)
+Paid Non Paid Flag (Wether user paid or not) ✅
