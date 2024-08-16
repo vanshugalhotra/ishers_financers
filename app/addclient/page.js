@@ -44,7 +44,9 @@ const AddClient = () => {
   );
 
   const [atm, setAtm] = useState(searchParams.get("encoded_atm") ?? "");
-  const [insurance, setInsurance] = useState(searchParams.get("encoded_insurance") ?? "");
+  const [insurance, setInsurance] = useState(
+    searchParams.get("encoded_insurance") ?? ""
+  );
 
   const [_id, set_id] = useState(searchParams.get("encoded__id") ?? null);
 
@@ -115,10 +117,12 @@ const AddClient = () => {
 
           return;
         }
-        data.signaturePhoto = {
-          name: Signature.name,
-          url: blobData.url,
-        };
+        if (!_id) {
+          data.signaturePhoto = {
+            name: Signature.name,
+            url: blobData.url,
+          };
+        }
       }
 
       // Upload Client Image
@@ -136,10 +140,12 @@ const AddClient = () => {
 
           return;
         }
-        data.image = {
-          name: clientImage.name,
-          url: blobData.url,
-        };
+        if (!_id) {
+          data.image = {
+            name: clientImage.name,
+            url: blobData.url,
+          };
+        }
       }
       // All uploads successful, proceed to save data in database
       const response = await postData(METHOD, data, api);

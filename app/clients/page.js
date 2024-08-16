@@ -5,7 +5,6 @@ import { useSidebar } from "@/context/SidebarContext";
 
 import Link from "next/link";
 import { fetchData } from "@/utils/dbFuncs";
-import { debounce } from "lodash";
 import Image from "next/image";
 
 import { useRouter } from "next/navigation";

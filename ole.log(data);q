@@ -1,0 +1,263 @@
+[33mcommit a89a412c217f2be8dc80ab16caf88fdda67ebbf5[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Thu Aug 15 11:35:16 2024 +0530
+
+    feat - added paid flag
+
+[33mcommit 303f720215955724a75d1922f3d8f9a2450d6999[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Thu Aug 15 11:14:54 2024 +0530
+
+    feat - added total amount card
+
+[33mcommit a930c5ec8b50d4b0d960c166f8d3ece32fc46be4[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Thu Aug 15 11:03:05 2024 +0530
+
+    updates
+
+[33mcommit 28609d2f7abf815b1069965b988e9fb89a78ad7d[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Thu Aug 15 10:42:19 2024 +0530
+
+    feat - added paid flag
+
+[33mcommit a5f31d47a98d8927208d43ece7e7818d8ce33c7c[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Wed Aug 14 16:33:58 2024 +0530
+
+    feat - added export ledger option
+
+[33mcommit 556883cebc0606da2a6579507d203b90d836dcdf[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Wed Aug 14 16:30:58 2024 +0530
+
+    feat - added ledger feature
+
+[33mcommit 57bb4d45d4ca2be275525535ff481cfea73c3274[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Tue Aug 6 14:07:33 2024 +0530
+
+    feat - added notes section
+
+[33mcommit 166599cbbad6fdeb67842b27ec70eb5ef0f25f72[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Mon Aug 5 21:24:54 2024 +0530
+
+    feat - minor changes
+
+[33mcommit de8ebd19e77d18da8e46b152473f6222cbc79308[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Mon Aug 5 21:10:25 2024 +0530
+
+    feat - changed modal
+
+[33mcommit 433c79be1952e552b09a3566d80af53900c9d2d0[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Fri Jul 19 08:20:01 2024 +0530
+
+    refactor - optimised
+
+[33mcommit 972432647903f6170041f8cd4acc8c60a52c8db7[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Sat Jul 13 10:23:49 2024 +0530
+
+    design: integrated loading component
+
+[33mcommit 75594b93f3cd0f776cd8e2543f59579e3fceff90[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Sat Jul 13 09:29:57 2024 +0530
+
+    design: added loading component
+
+[33mcommit 0717beb692f7e18227b1515cd9363ccb4228850a[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Fri Jul 12 14:11:23 2024 +0530
+
+    fix: update client photos name
+
+[33mcommit 05b1d8db2824fa6c5a84f5aa9b76ecb78608bbfc[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Fri Jul 12 13:34:34 2024 +0530
+
+    fix: added vercel blog for uploading
+
+[33mcommit 6d6bc9f222ecb967c51516a35304cfc147f481e3[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Fri Jul 12 10:41:49 2024 +0530
+
+    fix: temp directory
+
+[33mcommit 263d7f7377fdf015d948fbb3c629658a63f9a174[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Fri Jul 12 10:32:57 2024 +0530
+
+    fix: added temp file
+
+[33mcommit 1aae417482b521840bca7d5c06fee097551c085e[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Fri Jul 12 10:25:15 2024 +0530
+
+    fix: fixed image paths
+
+[33mcommit 146798ecaf731f19351b7c3d5b858ccf0a4a9e6d[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Fri Jul 12 10:22:33 2024 +0530
+
+    fix: fixed image paths
+
+[33mcommit 2ee58c8ee34d877dfb180292f5e9e5bef5eeca63[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Fri Jul 12 10:10:37 2024 +0530
+
+    fix: fixed z-index of dobpicker
+
+[33mcommit 359fdddd13a1ae98fb5d127815dd183cddc5f804[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Thu Jul 11 12:58:33 2024 +0530
+
+    design: added background image
+
+[33mcommit 60a335a2f1157a9c04c760e5c2d5f0e29f19e38f[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Thu Jul 11 11:42:38 2024 +0530
+
+    design: added authentication
+
+[33mcommit 6f0b33e830555a6f88794da500d7b2753db85537[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Wed Jul 10 15:03:08 2024 +0530
+
+    chors: icons
+
+[33mcommit 8ec5959884a6983b1aff357e124fe7b79fed66cc[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Wed Jul 10 14:41:11 2024 +0530
+
+    design: deleteloan is working
+
+[33mcommit a4b4060227abc6c5758d8fc947d3cd33ec994612[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Wed Jul 10 14:11:06 2024 +0530
+
+    design: delete client is working
+
+[33mcommit c45d86610e075daa4ac42522888139773bdb170a[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Wed Jul 10 11:52:42 2024 +0530
+
+    api: deleteloan & deleteclient api
+
+[33mcommit 6b289a605620d654a90065bd0aff537b862c796a[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Wed Jul 10 11:51:02 2024 +0530
+
+    fix: fixed phone updation
+
+[33mcommit 328c624c030772ee393e0494ac86dbdb67500e3d[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Wed Jul 10 10:53:41 2024 +0530
+
+    design: added responsiveness to modal
+
+[33mcommit 48bea22742bf34ee9e56cb29fd14ae900bf2336a[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Wed Jul 10 10:44:01 2024 +0530
+
+    design & api: get loan details
+
+[33mcommit 9e882dfae4671459bb266e0dcd5ba1c6a0fbf090[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Tue Jul 9 19:42:00 2024 +0530
+
+    design: increase loan & pay back working
+
+[33mcommit 7a82b9278e3e8ae57cced3074bd0e62515105b99[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Tue Jul 9 16:50:58 2024 +0530
+
+    design: added client's loan section in profile
+
+[33mcommit 0405960e003c7476bb4765e818dba4fb9bb35d9b[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Tue Jul 9 13:42:39 2024 +0530
+
+    api: updated addloan api to handle association with client's loan array
+
+[33mcommit f03488e83c4305516c66eb0b6235fd0ce6add5e7[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Tue Jul 9 13:12:43 2024 +0530
+
+    api & design: get client details
+
+[33mcommit 4dc806a5945b70ac8c50f8da150331af6c5ee0b8[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Mon Jul 8 17:21:11 2024 +0530
+
+    bug fix: fixed isActiveLink
+
+[33mcommit 20fbd28368523a595e8c5b36f70af32f0ef6d4cb[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Mon Jul 8 17:02:01 2024 +0530
+
+    design & api: updateloan
+
+[33mcommit d46e31dab5b591593bb851ddd1eabe36190b7b90[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Mon Jul 8 14:41:27 2024 +0530
+
+    design: update client logic added
+
+[33mcommit 20ee3cbe37527310150797b69db4c21355900e0a[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Sun Jul 7 17:11:22 2024 +0530
+
+    design: records page
+
+[33mcommit d1fafc658a781a08040f55d67caa5e3c42ea509c[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Sun Jul 7 16:46:52 2024 +0530
+
+    api: created getloans api
+
+[33mcommit 71d04b3190e24ca5a145d27023bbf5fdfd0e8e52[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Sun Jul 7 16:30:05 2024 +0530
+
+    design: addloan is now working!
+
+[33mcommit 3c28e647068f97cd7367fdc937c38c31642a86dd[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Sun Jul 7 15:58:48 2024 +0530
+
+    design: add loan page designed
+
+[33mcommit 50c8f9f91505a897aae434619a9a4166dd1843ee[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Sun Jul 7 12:20:18 2024 +0530
+
+    design: created clients page
+
+[33mcommit 486cdaec925e8b1ec9c0babceda07152100ab67d[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Sun Jul 7 10:22:40 2024 +0530
+
+    api: getclients api
+
+[33mcommit 0bf01cbe50f37615b32bea232b4cdfe233f4d34e[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Sun Jul 7 09:48:41 2024 +0530
+
+    db: updated loan Schema
+
+[33mcommit d45c833f388ef8628c4ebe959cff0491837ffeb3[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Sun Jul 7 09:39:49 2024 +0530
+
+    design: added selected image name
+
+[33mcommit 2447a0f9481bf36dc89bb946c79b8f2ace3123c5[m
+Author: Vanshu Galhotra <vanshugalhotra3332@gmail.com>
+Date:   Sat Jul 6 14:14:56 2024 +0530
+
+    api: creat
