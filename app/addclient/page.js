@@ -43,6 +43,24 @@ const AddClient = () => {
     searchParams.get("encoded_clientImage") ?? ""
   );
 
+  const [bankName, setBankName] = useState(
+    searchParams.get("encoded_bankName") ?? ""
+  );
+
+  const [bankBranch, setBankBranch] = useState(
+    searchParams.get("encoded_bankBranch") ?? ""
+  );
+
+  const [bankAccount, setBankAccount] = useState(
+    searchParams.get("encoded_bankAccount") ?? ""
+  );
+
+  const [previousSalary, setPreviousSalary] = useState(
+    searchParams.get("encoded_previousSalary") ?? 0
+  );
+
+  const [salary, setSalary] = useState(searchParams.get("encoded_salary") ?? 0);
+
   const [atm, setAtm] = useState(searchParams.get("encoded_atm") ?? "");
   const [insurance, setInsurance] = useState(
     searchParams.get("encoded_insurance") ?? ""
@@ -91,6 +109,11 @@ const AddClient = () => {
         dob: dob ? dob : null,
         atm: atm,
         driveURL: driveURL,
+        bankName: bankName,
+        bankBranch: bankBranch,
+        bankAccount: bankAccount,
+        previousSalary: previousSalary,
+        salary: salary,
       };
       let METHOD = "POST";
       let api = "/api/client/addclient";
@@ -269,6 +292,61 @@ const AddClient = () => {
               value={driveURL}
               onChange={(event) => {
                 setDriveURL(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
+          {/* Bank Name*/}
+          <div className="lg:col-span-1">
+            <InputContainer
+              label={"Bank Name (Optional)"}
+              value={bankName}
+              onChange={(event) => {
+                setBankName(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
+          {/* Bank Branch*/}
+          <div className="lg:col-span-1">
+            <InputContainer
+              label={"Bank Branch (Optional)"}
+              value={bankBranch}
+              onChange={(event) => {
+                setBankBranch(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
+          {/* Bank Account*/}
+          <div className="lg:col-span-2">
+            <InputContainer
+              label={"Bank Account (Optional)"}
+              value={bankAccount}
+              onChange={(event) => {
+                setBankAccount(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
+          {/* Previous Salary*/}
+          <div className="lg:col-span-2">
+            <InputContainer
+              label={"Previous Salary (Optional)"}
+              value={previousSalary}
+              onChange={(event) => {
+                setPreviousSalary(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
+          {/* Salary*/}
+          <div className="lg:col-span-2 (Optional)">
+            <InputContainer
+              label={"Salary"}
+              value={salary}
+              onChange={(event) => {
+                setSalary(event.target.value);
               }}
               fullWidth={true}
             />

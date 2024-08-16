@@ -31,16 +31,33 @@ const clientSchema = new Schema(
       required: true,
       unique: true,
     },
-
     atm: {
       type: String,
     },
     insurance: {
       type: String,
+      default: "",
     },
     note: {
       type: String,
       default: "",
+    },
+    bankName: {
+      type: String,
+    },
+    bankBranch: {
+      type: String,
+    },
+    bankAccount: {
+      type: String,
+    },
+    previousSalary: {
+      type: Number,
+      default: 0,
+    },
+    salary: {
+      type: Number,
+      default: 0,
     },
     loans: [
       {

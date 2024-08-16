@@ -96,6 +96,26 @@ const ClientDetails = () => {
       value: clientdetails.insurance,
     },
     {
+      title: "Bank Name",
+      value: clientdetails.bankName,
+    },
+    {
+      title: "Bank Branch",
+      value: clientdetails.bankBranch,
+    },
+    {
+      title: "Bank Account",
+      value: clientdetails.bankAccount,
+    },
+    {
+      title: "Previous Salary",
+      value: `₹${clientdetails.previousSalary}`,
+    },
+    {
+      title: "Salary",
+      value: `₹${clientdetails.salary}`,
+    },
+    {
       title: "Drive URL",
       value: clientdetails.driveURL ? clientdetails.driveURL : "",
       isLink: true,

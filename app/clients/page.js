@@ -84,7 +84,12 @@ const Clients = () => {
     signaturePhoto,
     atm,
     driveURL,
-    insurance
+    insurance,
+    bankName,
+    bankBranch,
+    bankAccount,
+    previousSalary,
+    salary
   ) => {
     const data = {
       _id,
@@ -98,6 +103,11 @@ const Clients = () => {
       atm,
       driveURL,
       insurance,
+      bankName,
+      bankBranch,
+      bankAccount,
+      previousSalary,
+      salary,
     };
     const queryParams = Object.keys(data)
       .map((key) => {
@@ -246,6 +256,11 @@ const Clients = () => {
                         driveURL,
                         atm,
                         insurance,
+                        bankName,
+                        bankBranch,
+                        bankAccount,
+                        previousSalary,
+                        salary,
                       },
                       index
                     ) => {
@@ -296,7 +311,12 @@ const Clients = () => {
                                   signaturePhoto,
                                   atm,
                                   driveURL,
-                                  insurance
+                                  insurance,
+                                  bankName,
+                                  bankBranch,
+                                  bankAccount,
+                                  previousSalary,
+                                  salary
                                 );
                               }}
                             >
