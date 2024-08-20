@@ -33,8 +33,9 @@ const Home = () => {
     fetchUnpaidLoans();
   }, []);
 
-  console.log(unpaidLoans);
-
+  if(!unpaidLoans){
+    return ;
+  }
   return (
     <main className="overflow-hidden" style={{ marginLeft: marginForSidebar }}>
       {loading && <Loading />}
