@@ -99,11 +99,7 @@ const LoanDetails = () => {
       {
         title: "Client Image",
         src: clientdetails.image.url,
-      },
-      {
-        title: "Client Signature",
-        src: clientdetails.signaturePhoto.url,
-      },
+      }
     ];
   }
 

@@ -36,9 +36,6 @@ const AddClient = () => {
     searchParams.get("encoded_driveURL") ?? ""
   );
 
-  const [Signature, setSignature] = useState(
-    searchParams.get("encoded_Signature") ?? ""
-  );
   const [clientImage, setClientImage] = useState(
     searchParams.get("encoded_clientImage") ?? ""
   );
@@ -57,6 +54,10 @@ const AddClient = () => {
 
   const [previousSalary, setPreviousSalary] = useState(
     searchParams.get("encoded_previousSalary") ?? 0
+  );
+
+  const [chequeBook, setChequeBook] = useState(
+    searchParams.get("encoded_chequeBook") ?? false
   );
 
   const [salary, setSalary] = useState(searchParams.get("encoded_salary") ?? 0);
@@ -85,11 +86,6 @@ const AddClient = () => {
 
         return;
       }
-      if (!Signature) {
-        raiseToast("error", "Signature Photo is required!!");
-
-        return;
-      }
       if (!aadharNo) {
         raiseToast("error", "Aadhar Number is required!!");
 
@@ -114,6 +110,7 @@ const AddClient = () => {
         bankAccount: bankAccount,
         previousSalary: previousSalary,
         salary: salary,
+        chequeBook: chequeBook,
       };
       let METHOD = "POST";
       let api = "/api/client/addclient";
@@ -124,30 +121,6 @@ const AddClient = () => {
         api = "/api/client/updateclient";
         data._id = _id;
       }
-
-      // Upload Signature Image
-      if (Signature) {
-        const response = await fetch(
-          `/api/upload/uploadtoblob?filename=${Signature.name}`,
-          {
-            method: "POST",
-            body: Signature,
-          }
-        );
-        const blobData = await response.json();
-        if (!blobData.url) {
-          raiseToast("error", "Failed to upload Signature Image");
-
-          return;
-        }
-        if (!_id) {
-          data.signaturePhoto = {
-            name: Signature.name,
-            url: blobData.url,
-          };
-        }
-      }
-
       // Upload Client Image
       if (clientImage) {
         const response = await fetch(
@@ -359,13 +332,20 @@ const AddClient = () => {
               imageVar={clientImage}
             />
           </div>
-          {/* Signature */}
           <div className="input-item lg:col-span-1 md:col-span-1">
-            <BlobUpload
-              name={"Signature"}
-              setState={setSignature}
-              imageVar={Signature}
+            <input
+              type="checkbox"
+              id="chequeBook"
+              checked={chequeBook}
+              onChange={(e) => setChequeBook(e.target.checked)}
+              className="w-6 h-6 text-green-500 bg-gray-100 border-gray-300 rounded focus:ring-green-400 focus:ring-opacity-75"
             />
+            <label
+              htmlFor="paidCheckbox"
+              className="ml-2 text-sm font-medium text-gray-700"
+            >
+              Cheque Book
+            </label>
           </div>
         </div>
         <div className="control-buttons mx-4 my-4">

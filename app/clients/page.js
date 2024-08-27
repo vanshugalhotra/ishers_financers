@@ -81,7 +81,6 @@ const Clients = () => {
     aadharNumber,
     panNumber,
     dob,
-    signaturePhoto,
     atm,
     driveURL,
     insurance,
@@ -89,7 +88,8 @@ const Clients = () => {
     bankBranch,
     bankAccount,
     previousSalary,
-    salary
+    salary,
+    chequeBook
   ) => {
     const data = {
       _id,
@@ -99,7 +99,6 @@ const Clients = () => {
       panNumber,
       dob,
       clientImage: image.name,
-      Signature: signaturePhoto.name,
       atm,
       driveURL,
       insurance,
@@ -108,6 +107,7 @@ const Clients = () => {
       bankAccount,
       previousSalary,
       salary,
+      chequeBook,
     };
     const queryParams = Object.keys(data)
       .map((key) => {
@@ -252,7 +252,6 @@ const Clients = () => {
                         aadharNumber,
                         panNumber,
                         dob,
-                        signaturePhoto,
                         driveURL,
                         atm,
                         insurance,
@@ -261,6 +260,7 @@ const Clients = () => {
                         bankAccount,
                         previousSalary,
                         salary,
+                        chequeBook,
                       },
                       index
                     ) => {
@@ -308,7 +308,6 @@ const Clients = () => {
                                   aadharNumber,
                                   panNumber,
                                   dob,
-                                  signaturePhoto,
                                   atm,
                                   driveURL,
                                   insurance,
@@ -316,7 +315,8 @@ const Clients = () => {
                                   bankBranch,
                                   bankAccount,
                                   previousSalary,
-                                  salary
+                                  salary,
+                                  chequeBook
                                 );
                               }}
                             >

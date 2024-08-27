@@ -124,6 +124,10 @@ const ClientDetails = () => {
       title: "Date Of Birth",
       value: formatDate(clientdetails.dob),
     },
+    {
+      title: "Cheque Book",
+      value: clientdetails.chequeBook ? "Yes" : "No",
+    },
   ];
 
   let clientImages = [];
@@ -132,11 +136,7 @@ const ClientDetails = () => {
       {
         title: "Client Image",
         src: clientdetails.image.url,
-      },
-      {
-        title: "Client Signature",
-        src: clientdetails.signaturePhoto.url,
-      },
+      }
     ];
   }
   const handleButtonClick = (type, _id) => {

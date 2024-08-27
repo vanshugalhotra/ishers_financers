@@ -14,10 +14,6 @@ const clientSchema = new Schema(
       required: true,
       unique: true,
     },
-    signaturePhoto: {
-      name: { type: String, default: "sign" },
-      url: { type: String, required: true },
-    },
     aadharNumber: {
       type: String,
       required: true,
@@ -62,7 +58,7 @@ const clientSchema = new Schema(
     loans: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Loan", // Assuming you have a Loan model
+        ref: "Loan", 
       },
     ],
     dob: {
@@ -72,6 +68,10 @@ const clientSchema = new Schema(
       name: { type: String },
       url: { type: String },
     },
+    chequeBook: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: true,
