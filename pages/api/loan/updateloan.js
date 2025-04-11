@@ -1,4 +1,5 @@
 import Loan from "@/models/Loan";
+import Client from "@/models/Client";
 import connectDb from "@/db/mongoose";
 
 const handler = async (req, res) => {

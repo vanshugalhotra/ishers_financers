@@ -1,5 +1,6 @@
 import Loan from "@/models/Loan";
 import connectDb from "@/db/mongoose";
+import Client from "@/models/Client";
 
 const handler = async (req, res) => {
   if (req.method === "GET") {

@@ -112,7 +112,7 @@ const Home = () => {
                               width={58}
                               height={58}
                               objectFit="cover"
-                              src={client.image.url}
+                              src={client.image?.url || "/assets/images/default.png"}
                             />
                           )}
                         </th>

@@ -283,7 +283,7 @@ const Clients = () => {
                               width={58}
                               height={58}
                               objectFit="cover"
-                              src={image.url}
+                              src={image?.url || "/assets/images/default.png"}
                             />
                           </th>
                           <td className="table-data">{name}</td>

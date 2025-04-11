@@ -29,7 +29,13 @@ const ClientDetails = () => {
 
   const clientID = searchParams.get("_id");
 
+  
   useEffect(() => {
+    if (!clientID) {
+      raiseToast("error", "Client not found!");
+      router.push("/clients"); // Or any safe route
+      return;
+    }
     const fetchClientDetails = async () => {
       startLoading();
       try {
@@ -73,7 +79,8 @@ const ClientDetails = () => {
   const clientFields = [
     {
       title: "Client Name",
-      value: clientdetails.name,
+      value: clientdetails?.name || "No Name Found",
+
     },
     {
       title: "Phone Number",
@@ -136,7 +143,7 @@ const ClientDetails = () => {
       {
         title: "Client Image",
         src: clientdetails.image.url,
-      }
+      },
     ];
   }
   const handleButtonClick = (type, _id) => {

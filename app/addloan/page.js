@@ -81,6 +81,15 @@ const AddLoan = () => {
   const submit = async () => {
     startLoading();
     try {
+      if (
+        isNaN(Number(duration)) ||
+        isNaN(Number(amount)) ||
+        isNaN(Number(interest))
+      ) {
+        raiseToast("error", "Invalid numeric value!");
+        return;
+      }
+
       if (!loanNo) {
         raiseToast("error", "Loan Number is required!!");
         return;
