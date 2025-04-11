@@ -42,8 +42,7 @@ const Clients = () => {
         const initialClients = await fetchData(api);
         setClients(initialClients); // Set state with fetched data
       } catch (error) {
-        console.error("Error fetching initial clients:", error);
-        // Handle error if needed
+        raiseToast("error", error.message || "Failed to fetch clients!");
       } finally {
         stopLoading();
       }

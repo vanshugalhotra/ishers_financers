@@ -27,7 +27,14 @@ const LoanDetails = () => {
     const fetchLoanDetails = async () => {
       startLoading();
       try {
-        const api = `/api/loan/getloandetails?_id=${searchParams.get("_id")}`;
+        const loanID = searchParams.get("_id");
+        if (!loanID) {
+          raiseToast("error", "Loan not found!");
+          router.push("/loans"); // fallback route
+          return;
+        }
+
+        const api = `/api/loan/getloandetails?_id=${loanID}`;
         const loan = await fetchData(api);
         setLoandetails(loan.loan);
       } catch (error) {
@@ -99,7 +106,7 @@ const LoanDetails = () => {
       {
         title: "Client Image",
         src: clientdetails.image.url,
-      }
+      },
     ];
   }
 
