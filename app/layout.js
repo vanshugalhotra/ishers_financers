@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import Layout from "@/components/Layout/Layout";
 import { Inter } from "next/font/google";
+import ErrorBoundary from "@/components/Error/ErrorBoundary";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -45,7 +46,9 @@ export default function RootLayout({ children }) {
                 pauseOnHover
                 theme="light"
               />
+              <ErrorBoundary>
               {children}
+              </ErrorBoundary>
               <section className="my-[20vh]"></section>
             </Layout>
           </SidebarProvider>
